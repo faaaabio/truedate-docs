@@ -17,23 +17,7 @@
           {
             "group": "Start Here",
             "icon": "rocket",
-            "pages": [
-              {
-                "title": "Introduction",
-                "path": "introduction",
-                "icon": "home"
-              },
-              {
-                "title": "Quickstart",
-                "path": "quickstart",
-                "icon": "zap"
-              },
-              {
-                "title": "Components",
-                "path": "components",
-                "icon": "code"
-              }
-            ]
+            "pages": []
           },
           {
             "group": "Components",
