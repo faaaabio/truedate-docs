@@ -11,10 +11,12 @@ Telas cobertas: Feed de descoberta (grid), Filtros de busca, Comunidades.
 
 ## AP-DES-004 — Duas telas com a mesma função (feed em grid)
 
-**Status:** Aberto
-**Prioridade:** Média
-**Tela:** Feed de descoberta (visualização em grid) e tela de perfil público
-**Responsável:** —
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Média |
+| Tela | Feed de descoberta (visualização em grid) e tela de perfil público |
+| Responsável | — |
 
 **Descrição:**
 Existem duas telas distintas que exercem funções similares ao exibir o feed de perfis em formato grid. Isso gera redundância de navegação e aumenta a complexidade de manutenção do código.
@@ -28,10 +30,12 @@ Consolidar as duas telas em uma única. Opções:
 
 ## AP-DES-005 — Grid do feed com alinhamento incorreto
 
-**Status:** Aberto
-**Prioridade:** Média
-**Tela:** Feed de descoberta (visualização em grid)
-**Responsável:** —
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Média |
+| Tela | Feed de descoberta (visualização em grid) |
+| Responsável | — |
 
 **Descrição:**
 O layout em grid do feed de descoberta apresenta desalinhamento entre os cards — o espaçamento entre colunas e linhas é inconsistente, e o card de destaque (maior) não está alinhado corretamente com os cards menores ao lado.
@@ -43,10 +47,12 @@ Aplicar o grid corrigido pelo designer (conforme referência na pg. 7). Usar esp
 
 ## AP-DES-006 — Texto sobre imagem no feed sem gradiente e sem fonte medium
 
-**Status:** Aberto
-**Prioridade:** Alta
-**Tela:** Feed de descoberta (visualização em grid)
-**Responsável:** —
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Alta |
+| Tela | Feed de descoberta (visualização em grid) |
+| Responsável | — |
 
 **Descrição:**
 Nos cards do feed em grid, o nome e a idade do usuário (ex: "Leonardo Rebitte, 45") são exibidos sobre a imagem sem gradiente de base, tornando o texto difícil de ler sobre fotos claras. Além disso, a fonte usada no texto não está em `medium` (weight 500) conforme especificado.
@@ -59,10 +65,12 @@ Nos cards do feed em grid, o nome e a idade do usuário (ex: "Leonardo Rebitte, 
 
 ## AP-DES-007 — Navbar sobreposta à barra de navegação do OS
 
-**Status:** Aberto
-**Prioridade:** Alta
-**Tela:** Feed de descoberta (e demais telas com bottom navbar)
-**Responsável:** —
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Alta |
+| Tela | Feed de descoberta (e demais telas com bottom navbar) |
+| Responsável | — |
 
 **Descrição:**
 A bottom navbar do app não respeita a safe area do Android, ficando sobreposta à barra de navegação gestual do sistema operacional. Em dispositivos com gesture navigation (sem botões físicos), os ícones do navbar ficam parcialmente ocultos ou inacessíveis.
@@ -74,10 +82,12 @@ Tornar o navbar **flutuante** com padding inferior dinâmico baseado em `safeAre
 
 ## AP-DES-008 — Fonte Plus Jakarta Sans ausente nos Filtros
 
-**Status:** Aberto
-**Prioridade:** Média
-**Tela:** Filtros de busca
-**Responsável:** —
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Média |
+| Tela | Filtros de busca |
+| Responsável | — |
 
 **Descrição:**
 Na tela de Filtros, o título "Filtros" e os labels das opções (ex: "Prefiro não dizer", "Localização desejada", "Minha localização", "Qualquer lugar") não estão renderizando a fonte **Plus Jakarta Sans**. O problema é parte do apontamento global de carregamento de fonte (ver AP-DS-001).
