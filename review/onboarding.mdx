@@ -5,64 +5,7 @@ description: Apontamentos de design review do módulo de Onboarding do TrueDate.
 
 # Onboarding — Apontamentos de Design
 
-Telas cobertas: Boas-vindas, Cadastro, Login, Verificação de telefone, Verificação de identidade (selfie).
-
----
-
-## AP-OBR-001 — Botão "Criar conta" fora do padrão
-
-**Status:** Aberto
-**Prioridade:** Alta
-**Tela:** Tela de boas-vindas
-**Responsável:** —
-
-**Descrição:**
-O botão primário "Criar conta" está usando a variante `outlined` ao invés da variante `filled` definida no design system para ações primárias. O botão "Entrar" (ação secundária) está usando `filled`, o que inverte a hierarquia visual esperada.
-
-**Evidência:**
-> Inserir screenshot da tela de boas-vindas.
-
-**Correção esperada:**
-- "Criar conta" → variante `filled` (cor brand)
-- "Entrar" → variante `outlined`
-
----
-
-## AP-OBR-002 — Tela de selfie sem feedback de progresso
-
-**Status:** Aberto
-**Prioridade:** Média
-**Tela:** Verificação de identidade
-**Responsável:** —
-
-**Descrição:**
-Durante o processo de verificação por selfie, não há indicador de etapas (ex: "Passo 2 de 3") nem feedback visual de progresso. O usuário não sabe quanto falta para concluir o onboarding, o que pode causar abandono.
-
-**Evidência:**
-> Inserir screenshot da tela de selfie.
-
-**Correção esperada:**
-Adicionar indicador de progresso no topo da tela (stepper ou barra de progresso) cobrindo as etapas: Dados pessoais → Verificação de telefone → Selfie.
-
----
-
-## AP-OBR-003 — Tipografia da tela de boas-vindas
-
-**Status:** Em andamento
-**Prioridade:** Média
-**Tela:** Boas-vindas
-**Responsável:** @designer
-
-**Descrição:**
-O título principal "Encontre conexões reais" está usando `font-size: 28px` mas a escala tipográfica do design system define `heading-xl` como `32px`. O subtítulo também está em `14px` ao invés de `16px` (`body-md`).
-
-**Evidência:**
-> Inserir screenshot comparando tela atual vs. especificação no Figma.
-
-**Correção esperada:**
-Ajustar os tokens tipográficos conforme o design system:
-- Título → `heading-xl` (32px, weight 700)
-- Subtítulo → `body-md` (16px, weight 400)
+Telas cobertas: Boas-vindas, Cadastro, Verificação de telefone, Suas preferências, Tudo Pronto!
 
 ---
 
@@ -157,9 +100,3 @@ O botão "Continuar" na tela de cadastro não respeita a safe area inferior do A
 
 **Correção esperada:**
 Adicionar `paddingBottom` dinâmico baseado no `safeAreaInsets.bottom` do dispositivo. Em Android com gesture navigation, o valor mínimo deve ser `16px + altura do gesture bar`.
-
----
-
-## Histórico de Resolvidos
-
-Nenhum apontamento resolvido neste módulo ainda.

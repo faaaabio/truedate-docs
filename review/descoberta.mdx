@@ -1,65 +1,11 @@
 ---
 title: Descoberta
-description: Apontamentos de design review do módulo de Descoberta (Swipe) do TrueDate.
+description: Apontamentos de design review do módulo de Descoberta do TrueDate.
 ---
 
 # Descoberta — Apontamentos de Design
 
-Telas cobertas: Feed de descoberta, Card de perfil, Filtros de busca, Estado vazio.
-
----
-
-## AP-DES-001 — Filtros sem estado visual ativo
-
-**Status:** Aberto
-**Prioridade:** Alta
-**Tela:** Filtros de busca
-**Responsável:** —
-
-**Descrição:**
-Quando o usuário aplica filtros (distância, faixa etária, interesses), o botão de filtro no header da tela de descoberta não muda de aparência para indicar que há filtros ativos. O usuário não tem como saber, a partir do feed, se está vendo resultados filtrados ou não.
-
-**Evidência:**
-> Inserir screenshot do header com e sem filtros ativos.
-
-**Correção esperada:**
-Adicionar um badge ou indicador no ícone de filtro quando houver filtros ativos:
-- Ponto colorido (brand color) no canto superior direito do ícone
-- Ou contagem de filtros ativos: "Filtros (2)"
-
----
-
-## AP-DES-002 — Frame drop na animação de swipe (Android)
-
-**Status:** Em andamento
-**Prioridade:** Alta
-**Tela:** Feed de descoberta
-**Responsável:** @dev-mobile
-
-**Descrição:**
-Em dispositivos Android de médio porte (ex: Samsung Galaxy A54, Moto G84), a animação de swipe cai para ~45fps durante o arraste, causando jank perceptível. O problema não ocorre em iOS ou em flagship Android. Possivelmente relacionado ao uso de `shadow` no card durante a animação.
-
-**Evidência:**
-> Inserir vídeo/GIF gravado em Samsung Galaxy A54 mostrando o jank.
-
-**Correção esperada:**
-Investigar remoção de `box-shadow` durante o gesto de swipe (aplicar apenas no estado estático) e avaliar uso de `transform` ao invés de `top/left` para animação.
-
----
-
-## AP-DES-003 — Overlay de like/nope com opacidade errada ✓
-
-**Status:** Resolvido
-**Prioridade:** Média
-**Tela:** Feed de descoberta
-**Versão corrigida:** v2.4.0
-**Responsável:** @dev-mobile
-
-**Descrição:**
-O overlay verde (like) e vermelho (nope) que aparece durante o swipe estava com `opacity: 0.9` ao invés de `0.7` definido no Figma, tornando o overlay muito opaco e cobrindo o conteúdo do card (foto e nome).
-
-**Correção aplicada:**
-`opacity` ajustado para `0.7` em ambos os overlays. Validado em iOS e Android.
+Telas cobertas: Feed de descoberta (grid), Filtros de busca, Comunidades.
 
 ---
 
@@ -97,7 +43,7 @@ O layout em grid do feed de descoberta apresenta desalinhamento entre os cards �
 > Pg. 7 do review — screenshot do feed em grid mostrando o desalinhamento (seta indicando o problema). Uma versão corrigida pelo designer também foi incluída na mesma página.
 
 **Correção esperada:**
-Aplicar o grid corrigido pelo designer (conforme referência na pg. 7). Usar espaçamentos múltiplos de 4px (ver AP-DS-004) entre os cards: `gap: 4px` ou `gap: 8px` conforme a especificação.
+Aplicar o grid corrigido pelo designer (conforme referência na pg. 7). Usar espaçamentos múltiplos de 4px entre os cards: `gap: 4px` ou `gap: 8px` conforme a especificação.
 
 ---
 
@@ -153,11 +99,3 @@ Na tela de Filtros, o título "Filtros" e os labels das opções (ex: "Prefiro n
 
 **Correção esperada:**
 Garantir que a fonte `Plus Jakarta Sans` está carregada antes de renderizar a tela de filtros. Ver AP-DS-001 para a solução global.
-
----
-
-## Histórico de Resolvidos
-
-| ID | Descrição | Versão |
-|----|-----------|--------|
-| AP-DES-003 | Overlay de like/nope com opacidade errada | v2.4.0 |

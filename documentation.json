@@ -43,21 +43,6 @@
                 "title": "Descoberta",
                 "path": "review/descoberta",
                 "icon": "compass"
-              },
-              {
-                "title": "Matches",
-                "path": "review/matches",
-                "icon": "heart"
-              },
-              {
-                "title": "Chat",
-                "path": "review/chat",
-                "icon": "message-circle"
-              },
-              {
-                "title": "Videochamada",
-                "path": "review/videochamada",
-                "icon": "video"
               }
             ]
           },
