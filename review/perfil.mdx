@@ -1,0 +1,202 @@
+---
+title: Perfil
+description: Apontamentos de design review do módulo de Perfil do TrueDate.
+---
+
+# Perfil — Apontamentos de Design
+
+Telas cobertas: Visualizar perfil próprio, Editar perfil, Gerenciar fotos, Configurações de conta.
+
+---
+
+## AP-PRF-001 — Espaçamento inconsistente na tela de edição
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Editar perfil
+**Responsável:** —
+
+**Descrição:**
+Os campos de formulário na tela de edição de perfil (Nome, Bio, Profissão, Escola) têm espaçamentos verticais inconsistentes:
+- Entre "Nome" e "Bio": `24px`
+- Entre "Bio" e "Profissão": `16px`
+- Entre "Profissão" e "Escola": `24px`
+
+O design system define `spacing-md` (20px) como padrão entre campos de formulário.
+
+**Evidência:**
+> Inserir screenshot da tela de edição com medidas anotadas.
+
+**Correção esperada:**
+Padronizar o `gap` entre todos os campos de formulário para `spacing-md` (20px).
+
+---
+
+## AP-PRF-002 — Ícone de câmera sobreposto à foto
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Editar perfil → Gerenciar fotos
+**Responsável:** —
+
+**Descrição:**
+Em dispositivos com tela menor (ex: iPhone SE, 375px de largura), o ícone de edição de câmera no canto inferior direito do thumbnail da foto fica parcialmente fora da área clicável e sobrepõe o card adjacente, tornando difícil tocar no ícone correto.
+
+**Evidência:**
+> Inserir screenshot em iPhone SE (375px).
+
+**Correção esperada:**
+Reduzir o tamanho do ícone de câmera de `32px` para `24px` em telas com largura ≤ 390px, ou reposicionar para o centro do thumbnail.
+
+---
+
+## AP-PRF-003 — Contador da bio sem alerta de limite
+
+**Status:** Em andamento
+**Prioridade:** Média
+**Tela:** Editar perfil → Bio
+**Responsável:** @dev-frontend
+
+**Descrição:**
+O contador de caracteres da bio (ex: "320/500") não muda de cor ao se aproximar do limite. O design especifica que ao atingir 450+ caracteres o contador deve ficar em `warning` (amarelo) e a partir de 490 em `error` (vermelho).
+
+**Evidência:**
+> Inserir screenshot do campo de bio com 480 caracteres.
+
+**Correção esperada:**
+Implementar mudança de cor no contador:
+- 0–449 caracteres: cor padrão (`text-secondary`)
+- 450–489 caracteres: `warning` (amarelo)
+- 490–500 caracteres: `error` (vermelho)
+
+---
+
+## AP-PRF-004 — Erro ao adicionar foto pela câmera
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Adicione sua Foto (Onboarding) e Álbum
+**Responsável:** —
+
+**Descrição:**
+Ao tocar no botão "Camera" na tela de adição de foto durante o onboarding, o app exibe um dialog de erro: **"Falha ao selecionar imagem. Tente novamente."** A câmera não abre e nenhuma foto é capturada. O erro ocorre mesmo com permissões de câmera concedidas.
+
+**Evidência:**
+> Pg. 2 do review — screenshot do dialog de erro após toque no botão "Camera".
+
+**Correção esperada:**
+Investigar o handler de abertura da câmera nativa. Verificar se o `react-native-image-picker` (ou biblioteca equivalente) está configurado corretamente para câmera no Android. Checar permissões em runtime (`CAMERA` e `WRITE_EXTERNAL_STORAGE`).
+
+---
+
+## AP-PRF-005 — Erro ao adicionar foto pela galeria (onboarding)
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Adicione sua Foto (Onboarding)
+**Responsável:** —
+
+**Descrição:**
+Ao tocar no botão "Galeria" na tela de adição de foto durante o onboarding, o app exibe o mesmo dialog de erro: **"Falha ao selecionar imagem. Tente novamente."** O picker de galeria abre mas a seleção da imagem falha ao tentar carregá-la no app.
+
+**Evidência:**
+> Pg. 2 do review — screenshot do dialog de erro após selecionar imagem da galeria no onboarding.
+
+**Correção esperada:**
+Verificar o callback de retorno do picker de galeria. O erro pode estar relacionado à permissão `READ_MEDIA_IMAGES` (Android 13+) não sendo solicitada em runtime, ou a um problema na conversão do URI da imagem selecionada.
+
+---
+
+## AP-PRF-006 — Erro ao adicionar foto no Álbum pela galeria
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Álbum
+**Responsável:** —
+
+**Descrição:**
+Na tela de Álbum, ao tocar no botão `+` e selecionar uma imagem da galeria do celular, o mesmo dialog de erro é exibido: **"Falha ao selecionar imagem. Tente novamente."** O problema afeta tanto o upload pelo onboarding quanto pelo álbum, sugerindo falha no componente compartilhado de seleção de imagem.
+
+**Evidência:**
+> Pg. 2 do review — screenshot do dialog de erro na tela Álbum após tentativa de upload pela galeria.
+
+**Correção esperada:**
+O bug provavelmente está no componente compartilhado de image picker. Corrigir o AP-PRF-004 e AP-PRF-005 deve resolver este também. Testar em múltiplos dispositivos Android (API 30, 33 e 34) após a correção.
+
+---
+
+## AP-PRF-007 — Nome do usuário sem fonte padrão nas configurações
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Configurações / Conta
+**Responsável:** —
+
+**Descrição:**
+Na tela de configurações da conta, o nome do usuário exibido abaixo do avatar (ex: "Fabio Lino") não está usando a fonte **Plus Jakarta Sans**. O texto está renderizando com a fonte padrão do sistema.
+
+**Evidência:**
+> Pg. 5 do review — screenshot da tela de configurações com o nome "Fabio Lino" em fonte incorreta.
+
+**Correção esperada:**
+Aplicar o token tipográfico correto (`heading-md`, `Plus Jakarta Sans`, weight 600) no componente de exibição do nome do usuário na tela de configurações.
+
+---
+
+## AP-PRF-008 — Renomear seção "Social" para nomenclatura mais clara
+
+**Status:** Aberto
+**Prioridade:** Baixa
+**Tela:** Configurações / Conta
+**Responsável:** —
+
+**Descrição:**
+O item de menu "Social" na tela de configurações não comunica claramente o que contém (seguidores, amigos, etc.). O nome é genérico e pode confundir o usuário sobre o que encontrará ao acessar.
+
+**Evidência:**
+> Pg. 5 do review — screenshot da tela de configurações com o item "Social" na lista de menu.
+
+**Correção esperada:**
+Renomear o item para **"Minha rede"** ou **"Meus números"**, que comunicam melhor o conteúdo (contagem de seguidores, amigos e seguindo).
+
+---
+
+## AP-PRF-009 — Textos da tela de Estatísticas fora do padrão da fonte
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Estatísticas
+**Responsável:** —
+
+**Descrição:**
+Na tela de Estatísticas, os labels dos cards ("Este Mês", "Top Visitantes", "Visitantes Únicos", "Média Diária", "Likes Dados", "Likes Recebidos", etc.) não estão usando a fonte **Plus Jakarta Sans**. A fonte de fallback do sistema está sendo aplicada, gerando inconsistência visual.
+
+**Evidência:**
+> Pg. 6 e pg. 8 do review — screenshots da tela de Estatísticas com labels em fonte incorreta.
+
+**Correção esperada:**
+Aplicar o token tipográfico `body-sm` (Plus Jakarta Sans, 12px, weight 500) nos labels dos cards de estatísticas.
+
+---
+
+## AP-PRF-010 — Faixa sólida sobre foto do perfil público deve ser substituída por gradiente
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Perfil público (visualização)
+**Responsável:** —
+
+**Descrição:**
+Na tela de visualização do perfil público, o nome e @username do usuário são exibidos sobre uma faixa/banner de cor sólida (cinza escuro) na parte inferior da foto. Esse tratamento é visualmente pesado e cobre parte da imagem de forma abrupta.
+
+**Evidência:**
+> Pg. 3 do review — screenshot do perfil público mostrando a faixa sólida sobre a foto (antes e depois comparado ao perfil com gradiente).
+
+**Correção esperada:**
+Substituir a faixa sólida por um **gradiente linear** `transparent → rgba(0,0,0,0.7)` aplicado na base da foto (últimos 30-40% de altura). O texto do nome deve ficar sobre o gradiente com cor branca para garantir legibilidade.
+
+---
+
+## Histórico de Resolvidos
+
+Nenhum apontamento resolvido neste módulo ainda.

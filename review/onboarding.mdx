@@ -1,0 +1,165 @@
+---
+title: Onboarding
+description: Apontamentos de design review do módulo de Onboarding do TrueDate.
+---
+
+# Onboarding — Apontamentos de Design
+
+Telas cobertas: Boas-vindas, Cadastro, Login, Verificação de telefone, Verificação de identidade (selfie).
+
+---
+
+## AP-OBR-001 — Botão "Criar conta" fora do padrão
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Tela de boas-vindas
+**Responsável:** —
+
+**Descrição:**
+O botão primário "Criar conta" está usando a variante `outlined` ao invés da variante `filled` definida no design system para ações primárias. O botão "Entrar" (ação secundária) está usando `filled`, o que inverte a hierarquia visual esperada.
+
+**Evidência:**
+> Inserir screenshot da tela de boas-vindas.
+
+**Correção esperada:**
+- "Criar conta" → variante `filled` (cor brand)
+- "Entrar" → variante `outlined`
+
+---
+
+## AP-OBR-002 — Tela de selfie sem feedback de progresso
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Verificação de identidade
+**Responsável:** —
+
+**Descrição:**
+Durante o processo de verificação por selfie, não há indicador de etapas (ex: "Passo 2 de 3") nem feedback visual de progresso. O usuário não sabe quanto falta para concluir o onboarding, o que pode causar abandono.
+
+**Evidência:**
+> Inserir screenshot da tela de selfie.
+
+**Correção esperada:**
+Adicionar indicador de progresso no topo da tela (stepper ou barra de progresso) cobrindo as etapas: Dados pessoais → Verificação de telefone → Selfie.
+
+---
+
+## AP-OBR-003 — Tipografia da tela de boas-vindas
+
+**Status:** Em andamento
+**Prioridade:** Média
+**Tela:** Boas-vindas
+**Responsável:** @designer
+
+**Descrição:**
+O título principal "Encontre conexões reais" está usando `font-size: 28px` mas a escala tipográfica do design system define `heading-xl` como `32px`. O subtítulo também está em `14px` ao invés de `16px` (`body-md`).
+
+**Evidência:**
+> Inserir screenshot comparando tela atual vs. especificação no Figma.
+
+**Correção esperada:**
+Ajustar os tokens tipográficos conforme o design system:
+- Título → `heading-xl` (32px, weight 700)
+- Subtítulo → `body-md` (16px, weight 400)
+
+---
+
+## AP-OBR-004 — Date picker sem input manual e ano inicial incorreto
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Suas preferências (Data de Nascimento)
+**Responsável:** —
+
+**Descrição:**
+O campo "Data de Nascimento" depende exclusivamente do date picker nativo para preenchimento. Dois problemas identificados:
+1. O usuário não consegue digitar a data manualmente, o que é mais rápido e acessível.
+2. O calendário do date picker abre no ano atual (2026), dificultando muito a navegação para anos anteriores como 1989 — o usuário precisa navegar mês a mês.
+
+**Evidência:**
+> Pg. 1 do review — screenshot da tela "Suas preferências" com o date picker aberto mostrando "Março de 2026".
+
+**Correção esperada:**
+- Permitir preenchimento manual da data diretamente no campo de input (formato `DD/MM/AAAA`).
+- Adicionar ícone de calendário dentro do input para abrir o date picker como alternativa.
+- Substituir o date picker atual por um seletor de mês/ano em colunas (scroll picker) para navegação mais rápida até anos como 1989.
+
+---
+
+## AP-OBR-005 — Títulos e subtítulos fora da fonte padrão na tela "Tudo Pronto!"
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Tudo Pronto! (última etapa do onboarding)
+**Responsável:** —
+
+**Descrição:**
+Na tela de confirmação "Tudo Pronto!", o título principal e os itens da lista ("Perfis Verificados", "Algoritmo Inteligente", "Segurança em Primeiro Lugar") não estão aplicando a fonte padrão **Plus Jakarta Sans**. A fonte de fallback do sistema está sendo renderizada no lugar.
+
+**Evidência:**
+> Pg. 3 do review — screenshot da tela "Tudo Pronto!" com a fonte incorreta visível no título.
+
+**Correção esperada:**
+Verificar o carregamento da fonte `Plus Jakarta Sans` nessa tela específica e garantir que o token tipográfico correto está sendo aplicado ao título e ao componente de lista de benefícios.
+
+---
+
+## AP-OBR-006 — Botão "Finalizar" sobreposto por componentes
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Tudo Pronto! (última etapa do onboarding)
+**Responsável:** —
+
+**Descrição:**
+O botão "Finalizar" na tela "Tudo Pronto!" não é flutuante, fazendo com que elementos da lista de benefícios possam sobrepô-lo em dispositivos menores ou quando o teclado está ativo.
+
+**Evidência:**
+> Pg. 3 do review — screenshot mostrando o botão "Finalizar" parcialmente visível na parte inferior da tela.
+
+**Correção esperada:**
+Tornar o botão flutuante com posicionamento fixo na parte inferior da tela (`position: fixed`, `bottom: safe-area-inset-bottom + 16px`), garantindo que nenhum componente de conteúdo o sobreponha.
+
+---
+
+## AP-OBR-007 — Fonte Plus Jakarta Sans ausente na tela "Criar sua conta"
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Criar sua conta (Cadastro)
+**Responsável:** —
+
+**Descrição:**
+O título "Criar sua conta" e os labels das seções ("Dados pessoais", "Crie sua senha") na tela de cadastro não estão renderizando a fonte **Plus Jakarta Sans**. O problema é consistente com o apontamento global de carregamento de fonte (ver AP-DS-001).
+
+**Evidência:**
+> Pg. 10 do review — screenshot da tela "Criar sua conta" com a fonte padrão do sistema visível no título.
+
+**Correção esperada:**
+Garantir que a fonte `Plus Jakarta Sans` está carregada antes de renderizar esta tela. Verificar se o token tipográfico está correto neste componente (ver AP-DS-001 para solução global).
+
+---
+
+## AP-OBR-008 — Botão "Continuar" sobreposto ao navbar do OS
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Criar sua conta (Cadastro)
+**Responsável:** —
+
+**Descrição:**
+O botão "Continuar" na tela de cadastro não respeita a safe area inferior do Android, ficando parcialmente sobreposto pela barra de navegação do sistema operacional quando o teclado está fechado. Em dispositivos com gesture navigation (sem botões físicos), o botão pode ficar inacessível.
+
+**Evidência:**
+> Pg. 10 do review — screenshot do botão "Continuar" sendo cortado pela barra do OS.
+
+**Correção esperada:**
+Adicionar `paddingBottom` dinâmico baseado no `safeAreaInsets.bottom` do dispositivo. Em Android com gesture navigation, o valor mínimo deve ser `16px + altura do gesture bar`.
+
+---
+
+## Histórico de Resolvidos
+
+Nenhum apontamento resolvido neste módulo ainda.

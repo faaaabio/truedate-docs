@@ -1,0 +1,163 @@
+---
+title: Descoberta
+description: Apontamentos de design review do módulo de Descoberta (Swipe) do TrueDate.
+---
+
+# Descoberta — Apontamentos de Design
+
+Telas cobertas: Feed de descoberta, Card de perfil, Filtros de busca, Estado vazio.
+
+---
+
+## AP-DES-001 — Filtros sem estado visual ativo
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Filtros de busca
+**Responsável:** —
+
+**Descrição:**
+Quando o usuário aplica filtros (distância, faixa etária, interesses), o botão de filtro no header da tela de descoberta não muda de aparência para indicar que há filtros ativos. O usuário não tem como saber, a partir do feed, se está vendo resultados filtrados ou não.
+
+**Evidência:**
+> Inserir screenshot do header com e sem filtros ativos.
+
+**Correção esperada:**
+Adicionar um badge ou indicador no ícone de filtro quando houver filtros ativos:
+- Ponto colorido (brand color) no canto superior direito do ícone
+- Ou contagem de filtros ativos: "Filtros (2)"
+
+---
+
+## AP-DES-002 — Frame drop na animação de swipe (Android)
+
+**Status:** Em andamento
+**Prioridade:** Alta
+**Tela:** Feed de descoberta
+**Responsável:** @dev-mobile
+
+**Descrição:**
+Em dispositivos Android de médio porte (ex: Samsung Galaxy A54, Moto G84), a animação de swipe cai para ~45fps durante o arraste, causando jank perceptível. O problema não ocorre em iOS ou em flagship Android. Possivelmente relacionado ao uso de `shadow` no card durante a animação.
+
+**Evidência:**
+> Inserir vídeo/GIF gravado em Samsung Galaxy A54 mostrando o jank.
+
+**Correção esperada:**
+Investigar remoção de `box-shadow` durante o gesto de swipe (aplicar apenas no estado estático) e avaliar uso de `transform` ao invés de `top/left` para animação.
+
+---
+
+## AP-DES-003 — Overlay de like/nope com opacidade errada ✓
+
+**Status:** Resolvido
+**Prioridade:** Média
+**Tela:** Feed de descoberta
+**Versão corrigida:** v2.4.0
+**Responsável:** @dev-mobile
+
+**Descrição:**
+O overlay verde (like) e vermelho (nope) que aparece durante o swipe estava com `opacity: 0.9` ao invés de `0.7` definido no Figma, tornando o overlay muito opaco e cobrindo o conteúdo do card (foto e nome).
+
+**Correção aplicada:**
+`opacity` ajustado para `0.7` em ambos os overlays. Validado em iOS e Android.
+
+---
+
+## AP-DES-004 — Duas telas com a mesma função (feed em grid)
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Feed de descoberta (visualização em grid) e tela de perfil público
+**Responsável:** —
+
+**Descrição:**
+Existem duas telas distintas que exercem funções similares ao exibir o feed de perfis em formato grid. Isso gera redundância de navegação e aumenta a complexidade de manutenção do código.
+
+**Evidência:**
+> Pg. 3 do review — screenshots das duas telas de grid lado a lado.
+
+**Correção esperada:**
+Consolidar as duas telas em uma única. Opções:
+- Transformar a tela duplicada em um **drawer** deslizável a partir da tela principal.
+- Remover uma das telas e manter apenas a versão à direita (mais completa).
+
+---
+
+## AP-DES-005 — Grid do feed com alinhamento incorreto
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Feed de descoberta (visualização em grid)
+**Responsável:** —
+
+**Descrição:**
+O layout em grid do feed de descoberta apresenta desalinhamento entre os cards — o espaçamento entre colunas e linhas é inconsistente, e o card de destaque (maior) não está alinhado corretamente com os cards menores ao lado.
+
+**Evidência:**
+> Pg. 7 do review — screenshot do feed em grid mostrando o desalinhamento (seta indicando o problema). Uma versão corrigida pelo designer também foi incluída na mesma página.
+
+**Correção esperada:**
+Aplicar o grid corrigido pelo designer (conforme referência na pg. 7). Usar espaçamentos múltiplos de 4px (ver AP-DS-004) entre os cards: `gap: 4px` ou `gap: 8px` conforme a especificação.
+
+---
+
+## AP-DES-006 — Texto sobre imagem no feed sem gradiente e sem fonte medium
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Feed de descoberta (visualização em grid)
+**Responsável:** —
+
+**Descrição:**
+Nos cards do feed em grid, o nome e a idade do usuário (ex: "Leonardo Rebitte, 45") são exibidos sobre a imagem sem gradiente de base, tornando o texto difícil de ler sobre fotos claras. Além disso, a fonte usada no texto não está em `medium` (weight 500) conforme especificado.
+
+**Evidência:**
+> Pg. 7 do review — screenshot do card "Leonardo Rebitte, 45" com texto sobre imagem sem gradiente.
+
+**Correção esperada:**
+- Adicionar **gradiente linear** `transparent → rgba(0,0,0,0.6)` apenas na base do card (últimos 35% de altura).
+- Aplicar `fontWeight: 500` (medium) no texto de nome e idade.
+
+---
+
+## AP-DES-007 — Navbar sobreposta à barra de navegação do OS
+
+**Status:** Aberto
+**Prioridade:** Alta
+**Tela:** Feed de descoberta (e demais telas com bottom navbar)
+**Responsável:** —
+
+**Descrição:**
+A bottom navbar do app não respeita a safe area do Android, ficando sobreposta à barra de navegação gestual do sistema operacional. Em dispositivos com gesture navigation (sem botões físicos), os ícones do navbar ficam parcialmente ocultos ou inacessíveis.
+
+**Evidência:**
+> Pg. 7 do review — screenshot do feed mostrando a navbar cortada pela barra do OS.
+
+**Correção esperada:**
+Tornar o navbar **flutuante** com padding inferior dinâmico baseado em `safeAreaInsets.bottom`. Em Android com gesture navigation, garantir espaçamento mínimo de `safeAreaInsets.bottom + 8px`.
+
+---
+
+## AP-DES-008 — Fonte Plus Jakarta Sans ausente nos Filtros
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Filtros de busca
+**Responsável:** —
+
+**Descrição:**
+Na tela de Filtros, o título "Filtros" e os labels das opções (ex: "Prefiro não dizer", "Localização desejada", "Minha localização", "Qualquer lugar") não estão renderizando a fonte **Plus Jakarta Sans**. O problema é parte do apontamento global de carregamento de fonte (ver AP-DS-001).
+
+**Evidência:**
+> Pg. 8 do review — screenshot da tela de Filtros com fonte incorreta no título e nos labels.
+
+**Correção esperada:**
+Garantir que a fonte `Plus Jakarta Sans` está carregada antes de renderizar a tela de filtros. Ver AP-DS-001 para a solução global.
+
+---
+
+## Histórico de Resolvidos
+
+| ID | Descrição | Versão |
+|----|-----------|--------|
+| AP-DES-003 | Overlay de like/nope com opacidade errada | v2.4.0 |

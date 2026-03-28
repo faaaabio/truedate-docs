@@ -1,0 +1,50 @@
+---
+title: Matches
+description: Apontamentos de design review do módulo de Matches do TrueDate.
+---
+
+# Matches — Apontamentos de Design
+
+Telas cobertas: Tela de novo match (animação), Lista de matches, Card de match.
+
+---
+
+## AP-MAT-001 — Foto do match cortada no card da lista
+
+**Status:** Aberto
+**Prioridade:** Média
+**Tela:** Lista de matches
+**Responsável:** —
+
+**Descrição:**
+Na lista de matches, o avatar circular do match tem `object-fit: cover` mas sem `object-position`, fazendo com que rostos posicionados na parte inferior da foto (foto de corpo inteiro) sejam cortados. O design system especifica `object-position: center top` para avatares de perfil.
+
+**Evidência:**
+> Inserir screenshot da lista de matches com exemplo de foto cortada.
+
+**Correção esperada:**
+Aplicar `object-position: center top` no componente de avatar da lista de matches para priorizar o rosto do usuário.
+
+---
+
+## AP-MAT-002 — Badge de novo match não aparecia na aba ✓
+
+**Status:** Resolvido
+**Prioridade:** Alta
+**Tela:** Tab bar → aba Matches
+**Versão corrigida:** v2.3.0
+**Responsável:** @dev-mobile
+
+**Descrição:**
+O badge numérico de novos matches na aba da tab bar não era atualizado em tempo real quando o app estava em foreground. O badge só aparecia após fechar e reabrir o app.
+
+**Correção aplicada:**
+Corrigido o listener de WebSocket para atualizar o estado da tab bar imediatamente ao receber um novo match. Validado em iOS e Android.
+
+---
+
+## Histórico de Resolvidos
+
+| ID | Descrição | Versão |
+|----|-----------|--------|
+| AP-MAT-002 | Badge de novo match não aparecia na aba | v2.3.0 |
