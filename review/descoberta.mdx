@@ -19,9 +19,6 @@ Telas cobertas: Feed de descoberta (grid), Filtros de busca, Comunidades.
 **Descrição:**
 Existem duas telas distintas que exercem funções similares ao exibir o feed de perfis em formato grid. Isso gera redundância de navegação e aumenta a complexidade de manutenção do código.
 
-**Evidência:**
-> Pg. 3 do review — screenshots das duas telas de grid lado a lado.
-
 **Correção esperada:**
 Consolidar as duas telas em uma única. Opções:
 - Transformar a tela duplicada em um **drawer** deslizável a partir da tela principal.
@@ -39,9 +36,6 @@ Consolidar as duas telas em uma única. Opções:
 **Descrição:**
 O layout em grid do feed de descoberta apresenta desalinhamento entre os cards — o espaçamento entre colunas e linhas é inconsistente, e o card de destaque (maior) não está alinhado corretamente com os cards menores ao lado.
 
-**Evidência:**
-> Pg. 7 do review — screenshot do feed em grid mostrando o desalinhamento (seta indicando o problema). Uma versão corrigida pelo designer também foi incluída na mesma página.
-
 **Correção esperada:**
 Aplicar o grid corrigido pelo designer (conforme referência na pg. 7). Usar espaçamentos múltiplos de 4px entre os cards: `gap: 4px` ou `gap: 8px` conforme a especificação.
 
@@ -56,9 +50,6 @@ Aplicar o grid corrigido pelo designer (conforme referência na pg. 7). Usar esp
 
 **Descrição:**
 Nos cards do feed em grid, o nome e a idade do usuário (ex: "Leonardo Rebitte, 45") são exibidos sobre a imagem sem gradiente de base, tornando o texto difícil de ler sobre fotos claras. Além disso, a fonte usada no texto não está em `medium` (weight 500) conforme especificado.
-
-**Evidência:**
-> Pg. 7 do review — screenshot do card "Leonardo Rebitte, 45" com texto sobre imagem sem gradiente.
 
 **Correção esperada:**
 - Adicionar **gradiente linear** `transparent → rgba(0,0,0,0.6)` apenas na base do card (últimos 35% de altura).
@@ -76,9 +67,6 @@ Nos cards do feed em grid, o nome e a idade do usuário (ex: "Leonardo Rebitte, 
 **Descrição:**
 A bottom navbar do app não respeita a safe area do Android, ficando sobreposta à barra de navegação gestual do sistema operacional. Em dispositivos com gesture navigation (sem botões físicos), os ícones do navbar ficam parcialmente ocultos ou inacessíveis.
 
-**Evidência:**
-> Pg. 7 do review — screenshot do feed mostrando a navbar cortada pela barra do OS.
-
 **Correção esperada:**
 Tornar o navbar **flutuante** com padding inferior dinâmico baseado em `safeAreaInsets.bottom`. Em Android com gesture navigation, garantir espaçamento mínimo de `safeAreaInsets.bottom + 8px`.
 
@@ -93,9 +81,6 @@ Tornar o navbar **flutuante** com padding inferior dinâmico baseado em `safeAre
 
 **Descrição:**
 Na tela de Filtros, o título "Filtros" e os labels das opções (ex: "Prefiro não dizer", "Localização desejada", "Minha localização", "Qualquer lugar") não estão renderizando a fonte **Plus Jakarta Sans**. O problema é parte do apontamento global de carregamento de fonte (ver AP-DS-001).
-
-**Evidência:**
-> Pg. 8 do review — screenshot da tela de Filtros com fonte incorreta no título e nos labels.
 
 **Correção esperada:**
 Garantir que a fonte `Plus Jakarta Sans` está carregada antes de renderizar a tela de filtros. Ver AP-DS-001 para a solução global.

@@ -21,9 +21,6 @@ O campo "Data de Nascimento" depende exclusivamente do date picker nativo para p
 1. O usuário não consegue digitar a data manualmente, o que é mais rápido e acessível.
 2. O calendário do date picker abre no ano atual (2026), dificultando muito a navegação para anos anteriores como 1989 — o usuário precisa navegar mês a mês.
 
-**Evidência:**
-> Pg. 1 do review — screenshot da tela "Suas preferências" com o date picker aberto mostrando "Março de 2026".
-
 **Correção esperada:**
 - Permitir preenchimento manual da data diretamente no campo de input (formato `DD/MM/AAAA`).
 - Adicionar ícone de calendário dentro do input para abrir o date picker como alternativa.
@@ -41,9 +38,6 @@ O campo "Data de Nascimento" depende exclusivamente do date picker nativo para p
 **Descrição:**
 Na tela de confirmação "Tudo Pronto!", o título principal e os itens da lista ("Perfis Verificados", "Algoritmo Inteligente", "Segurança em Primeiro Lugar") não estão aplicando a fonte padrão **Plus Jakarta Sans**. A fonte de fallback do sistema está sendo renderizada no lugar.
 
-**Evidência:**
-> Pg. 3 do review — screenshot da tela "Tudo Pronto!" com a fonte incorreta visível no título.
-
 **Correção esperada:**
 Verificar o carregamento da fonte `Plus Jakarta Sans` nessa tela específica e garantir que o token tipográfico correto está sendo aplicado ao título e ao componente de lista de benefícios.
 
@@ -58,9 +52,6 @@ Verificar o carregamento da fonte `Plus Jakarta Sans` nessa tela específica e g
 
 **Descrição:**
 O botão "Finalizar" na tela "Tudo Pronto!" não é flutuante, fazendo com que elementos da lista de benefícios possam sobrepô-lo em dispositivos menores ou quando o teclado está ativo.
-
-**Evidência:**
-> Pg. 3 do review — screenshot mostrando o botão "Finalizar" parcialmente visível na parte inferior da tela.
 
 **Correção esperada:**
 Tornar o botão flutuante com posicionamento fixo na parte inferior da tela (`position: fixed`, `bottom: safe-area-inset-bottom + 16px`), garantindo que nenhum componente de conteúdo o sobreponha.
@@ -77,9 +68,6 @@ Tornar o botão flutuante com posicionamento fixo na parte inferior da tela (`po
 **Descrição:**
 O título "Criar sua conta" e os labels das seções ("Dados pessoais", "Crie sua senha") na tela de cadastro não estão renderizando a fonte **Plus Jakarta Sans**. O problema é consistente com o apontamento global de carregamento de fonte (ver AP-DS-001).
 
-**Evidência:**
-> Pg. 10 do review — screenshot da tela "Criar sua conta" com a fonte padrão do sistema visível no título.
-
 **Correção esperada:**
 Garantir que a fonte `Plus Jakarta Sans` está carregada antes de renderizar esta tela. Verificar se o token tipográfico está correto neste componente (ver AP-DS-001 para solução global).
 
@@ -94,9 +82,6 @@ Garantir que a fonte `Plus Jakarta Sans` está carregada antes de renderizar est
 
 **Descrição:**
 O botão "Continuar" na tela de cadastro não respeita a safe area inferior do Android, ficando parcialmente sobreposto pela barra de navegação do sistema operacional quando o teclado está fechado. Em dispositivos com gesture navigation (sem botões físicos), o botão pode ficar inacessível.
-
-**Evidência:**
-> Pg. 10 do review — screenshot do botão "Continuar" sendo cortado pela barra do OS.
 
 **Correção esperada:**
 Adicionar `paddingBottom` dinâmico baseado no `safeAreaInsets.bottom` do dispositivo. Em Android com gesture navigation, o valor mínimo deve ser `16px + altura do gesture bar`.

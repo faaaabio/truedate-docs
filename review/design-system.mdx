@@ -31,9 +31,6 @@ O problema foi identificado nas seguintes telas (não exaustivo):
 - Mensagens — estado vazio ("Nenhuma conversa ainda")
 - Modais — títulos de "Recurso Premium" e "Enviar Mensagem"
 
-**Evidência:**
-> Pg. 3, 4, 5, 6, 8 e 9 do review — múltiplos screenshots com font fallback visível em diferentes telas.
-
 **Correção esperada:**
 1. Verificar se a fonte `Plus Jakarta Sans` está sendo carregada via `expo-font` (ou equivalente) antes do primeiro render da aplicação.
 2. Garantir que o carregamento é aguardado com `useFonts` + `SplashScreen.preventAutoHideAsync()`.
@@ -51,9 +48,6 @@ O problema foi identificado nas seguintes telas (não exaustivo):
 
 **Descrição:**
 A cor da marca (`brand`) está sendo aplicada com um valor incorreto em algumas telas. A **cor correta da marca é `#C8B776`** (dourado/champagne). Em algumas telas foi identificado uso de cor diferente para elementos que deveriam usar a cor brand.
-
-**Evidência:**
-> Pg. 10 do review — screenshot da tela de splash com a cor da marca destacada.
 
 **Correção esperada:**
 Atualizar o token de cor no design system / tema global:
@@ -77,9 +71,6 @@ Elementos que devem usar a cor azul (botões, links, indicadores) estão com val
 - **Azul primário:** `#0583F1` (substituir uso de preto `#000000` em contextos de ação)
 - **Azul escuro / secundário:** `#143341` (usar como alternativa ao preto puro em textos e ícones)
 
-**Evidência:**
-> Pg. 10 do review — screenshot com indicações de onde o preto está sendo usado no lugar do azul `#0583F1` e do azul escuro `#143341`.
-
 **Correção esperada:**
 Atualizar os tokens de cor no tema global:
 ```
@@ -99,9 +90,6 @@ Substituir usos de `#000000` em botões de ação e elementos de navegação pel
 
 **Descrição:**
 O espaçamento entre cards e elementos em múltiplas telas não está seguindo a grade de espaçamento definida no design system: **todos os espaços devem ser múltiplos de 4px** (4, 8, 12, 16, 20, 24, 32...). Valores arbitrários como `10px`, `14px` ou `18px` foram identificados.
-
-**Evidência:**
-> Pg. 10 do review — screenshot da tela de cadastro com anotação sobre o espaçamento entre cards.
 
 **Correção esperada:**
 - Auditar todos os `gap`, `margin` e `padding` do app e arredondar para o múltiplo de 4px mais próximo.
@@ -126,9 +114,6 @@ Telas identificadas com este padrão de dialog que poderiam usar drawer:
 
 Adicionalmente, os **títulos dentro dos modais** também estão sem a fonte padrão (Plus Jakarta Sans), problema relacionado ao AP-DS-001.
 
-**Evidência:**
-> Pg. 4 do review — screenshots dos modais "Recurso Premium" e "Enviar Mensagem", com exemplo do drawer proposto.
-
 **Correção esperada:**
 - Criar um componente `BottomDrawer` reutilizável para uso em todo o app.
 - Migrar os modais identificados para o novo componente.
@@ -145,9 +130,6 @@ Adicionalmente, os **títulos dentro dos modais** também estão sem a fonte pad
 
 **Descrição:**
 Botões de ação primária no rodapé de telas (ex: "Continuar", "Finalizar", "Próximo", "Buscar") não são flutuantes, permitindo que elementos de conteúdo os sobreponham ao rolar a tela ou quando o teclado está ativo. Em dispositivos com gesture navigation, o botão pode ainda ser parcialmente coberto pela barra do OS.
-
-**Evidência:**
-> Pg. 3 e pg. 10 do review — botões "Finalizar" e "Continuar" sobrepostos ou cortados.
 
 **Correção esperada:**
 - Tornar estes botões flutuantes: `position: absolute`, `bottom: 0`, com padding inferior de `safeAreaInsets.bottom + 16px`.

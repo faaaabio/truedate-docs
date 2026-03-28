@@ -19,9 +19,6 @@ Telas cobertas: Adicionar Foto, Álbum, Perfil público, Configurações, Estat�
 **Descrição:**
 Ao tocar no botão "Camera" na tela de adição de foto durante o onboarding, o app exibe um dialog de erro: **"Falha ao selecionar imagem. Tente novamente."** A câmera não abre e nenhuma foto é capturada, mesmo com permissões concedidas.
 
-**Evidência:**
-> Pg. 2 do review — screenshot do dialog de erro após toque no botão "Camera".
-
 **Correção esperada:**
 Investigar o handler de abertura da câmera nativa. Verificar se o `react-native-image-picker` (ou biblioteca equivalente) está configurado corretamente para câmera no Android. Checar permissões em runtime (`CAMERA` e `WRITE_EXTERNAL_STORAGE`).
 
@@ -36,9 +33,6 @@ Investigar o handler de abertura da câmera nativa. Verificar se o `react-native
 
 **Descrição:**
 Ao tocar no botão "Galeria" na tela de adição de foto durante o onboarding, o app exibe o mesmo dialog de erro: **"Falha ao selecionar imagem. Tente novamente."** O picker de galeria abre mas a seleção da imagem falha ao tentar carregá-la no app.
-
-**Evidência:**
-> Pg. 2 do review — screenshot do dialog de erro após selecionar imagem da galeria no onboarding.
 
 **Correção esperada:**
 Verificar o callback de retorno do picker de galeria. O erro pode estar relacionado à permissão `READ_MEDIA_IMAGES` (Android 13+) não sendo solicitada em runtime, ou a um problema na conversão do URI da imagem selecionada.
@@ -55,9 +49,6 @@ Verificar o callback de retorno do picker de galeria. O erro pode estar relacion
 **Descrição:**
 Na tela de Álbum, ao tocar no botão `+` e selecionar uma imagem da galeria do celular, o mesmo dialog de erro é exibido: **"Falha ao selecionar imagem. Tente novamente."** O problema afeta tanto o upload pelo onboarding quanto pelo álbum, sugerindo falha no componente compartilhado de seleção de imagem.
 
-**Evidência:**
-> Pg. 2 do review — screenshot do dialog de erro na tela Álbum após tentativa de upload pela galeria.
-
 **Correção esperada:**
 O bug provavelmente está no componente compartilhado de image picker. Corrigir AP-PRF-004 e AP-PRF-005 deve resolver este também. Testar em múltiplos dispositivos Android (API 30, 33 e 34) após a correção.
 
@@ -72,9 +63,6 @@ O bug provavelmente está no componente compartilhado de image picker. Corrigir 
 
 **Descrição:**
 Na tela de configurações da conta, o nome do usuário exibido abaixo do avatar (ex: "Fabio Lino") não está usando a fonte **Plus Jakarta Sans**. O texto está renderizando com a fonte padrão do sistema.
-
-**Evidência:**
-> Pg. 5 do review — screenshot da tela de configurações com o nome "Fabio Lino" em fonte incorreta.
 
 **Correção esperada:**
 Aplicar o token tipográfico correto (`heading-md`, Plus Jakarta Sans, weight 600) no componente de exibição do nome do usuário na tela de configurações.
@@ -91,9 +79,6 @@ Aplicar o token tipográfico correto (`heading-md`, Plus Jakarta Sans, weight 60
 **Descrição:**
 O item de menu "Social" na tela de configurações não comunica claramente o que contém. O nome é genérico e pode confundir o usuário sobre o que encontrará ao acessar.
 
-**Evidência:**
-> Pg. 5 do review — screenshot da tela de configurações com o item "Social" na lista de menu.
-
 **Correção esperada:**
 Renomear o item para **"Minha rede"** ou **"Meus números"**, que comunicam melhor o conteúdo (contagem de seguidores, amigos e seguindo).
 
@@ -109,9 +94,6 @@ Renomear o item para **"Minha rede"** ou **"Meus números"**, que comunicam melh
 **Descrição:**
 Na tela de Estatísticas, os labels dos cards ("Este Mês", "Top Visitantes", "Visitantes Únicos", "Média Diária", "Likes Dados", "Likes Recebidos", etc.) não estão usando a fonte **Plus Jakarta Sans**. A fonte de fallback do sistema está sendo aplicada, gerando inconsistência visual.
 
-**Evidência:**
-> Pg. 6 e pg. 8 do review — screenshots da tela de Estatísticas com labels em fonte incorreta.
-
 **Correção esperada:**
 Aplicar o token tipográfico `body-sm` (Plus Jakarta Sans, 12px, weight 500) nos labels dos cards de estatísticas.
 
@@ -126,9 +108,6 @@ Aplicar o token tipográfico `body-sm` (Plus Jakarta Sans, 12px, weight 500) nos
 
 **Descrição:**
 Na tela de visualização do perfil público, o nome e @username do usuário são exibidos sobre uma faixa/banner de cor sólida na parte inferior da foto. Esse tratamento é visualmente pesado e cobre parte da imagem de forma abrupta.
-
-**Evidência:**
-> Pg. 3 do review — screenshot do perfil público mostrando a faixa sólida sobre a foto (antes e depois comparado ao perfil com gradiente).
 
 **Correção esperada:**
 Substituir a faixa sólida por um **gradiente linear** `transparent → rgba(0,0,0,0.7)` aplicado na base da foto (últimos 30-40% de altura). O texto do nome deve ficar sobre o gradiente com cor branca para garantir legibilidade.
