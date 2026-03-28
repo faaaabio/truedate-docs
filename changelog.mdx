@@ -5,6 +5,32 @@ description: Histórico de atualizações e releases do TrueDate.
 
 ## Atualizações do TrueDate
 
+<Update label="2026-03-27" description="Review 1.2" tags={["review"]}>
+## Design Review 1.2
+
+Realização do ciclo de revisão de design **review1.2** com análise de telas em dispositivo Android físico. Foram identificados e documentados **23 apontamentos** distribuídos em 4 módulos.
+
+### Apontamentos por módulo
+
+| Módulo | Quantidade |
+|--------|------------|
+| Onboarding | 5 |
+| Perfil | 7 |
+| Descoberta | 5 |
+| Design System | 6 |
+
+### Principais achados
+
+- **Fonte Plus Jakarta Sans** não está sendo aplicada em múltiplas telas (Onboarding, Perfil, Estatísticas, Filtros, Comunidades, Álbum, Mensagens, modais)
+- **Erro crítico** ao adicionar fotos pela câmera e galeria — "Falha ao selecionar imagem" em todo o fluxo de upload
+- **Date picker** de data de nascimento com ano inicial incorreto (2026) e sem suporte a input manual
+- **Cores da marca** com valores incorretos — cor brand deve ser `#C8B776`, azul primário `#0583F1`
+- **Botões de ação** não flutuantes, sendo sobrepostos pela barra de navegação do OS em dispositivos Android
+- **Navbar** sobreposta à gesture bar do Android em múltiplas telas
+
+A documentação completa dos apontamentos está disponível na aba [Review](/review/overview).
+</Update>
+
 <Update label="2026-03-20" description="v2.4.0" tags={["feature", "melhoria"]}>
 ## Novidades
 - **Videochamada aprimorada:** adaptive bitrate agora reduz qualidade do vídeo mais suavemente em conexões instáveis, priorizando o áudio.
