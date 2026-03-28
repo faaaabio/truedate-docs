@@ -1,0 +1,323 @@
+---
+title: "Videochamada"
+description: "Casos de teste para o sistema de videochamada do TrueDate"
+---
+
+# Casos de Teste — Videochamada
+
+Testes para validar o sistema de chamadas de vídeo entre usuários com match.
+
+<Callout type="info">
+**Pré-condições gerais:** Dois usuários com match ativo. Ambos com permissões de câmera e microfone concedidas. Conexão de internet estável (mínimo 3G/LTE). Dispositivos com câmera frontal funcional.
+</Callout>
+
+## Resumo dos Casos
+
+| ID | Cenário | Severidade |
+|----|---------|------------|
+| TC-VIDEO-001 | Iniciar videochamada com match | Crítica |
+| TC-VIDEO-002 | Receber chamada de vídeo | Crítica |
+| TC-VIDEO-003 | Alternar câmera (frontal/traseira) | Média |
+| TC-VIDEO-004 | Mutar/desmutar áudio | Alta |
+| TC-VIDEO-005 | Ligar/desligar câmera durante chamada | Alta |
+| TC-VIDEO-006 | Encerrar chamada | Crítica |
+| TC-VIDEO-007 | Chamada com conexão instável | Alta |
+| TC-VIDEO-008 | Permissões de câmera/microfone negadas | Alta |
+
+---
+
+## TC-VIDEO-001: Iniciar videochamada com match
+
+**Severidade:** Crítica
+
+**Pré-condições:**
+- Match ativo entre Usuário A e Usuário B
+- Conversa de chat existente entre eles
+- Usuário B está online (app em foreground ou background)
+
+<Steps>
+  <Step title="Abrir conversa">
+    Usuário A abre o chat com Usuário B.
+  </Step>
+  <Step title="Tocar no ícone de videochamada">
+    Tocar no ícone de câmera/vídeo no header da conversa.
+  </Step>
+  <Step title="Verificar tela de chamando">
+    Tela de "chamando..." deve aparecer com foto do Usuário B, nome e timer.
+  </Step>
+  <Step title="Usuário B atende">
+    Usuário B aceita a chamada.
+  </Step>
+  <Step title="Verificar conexão de vídeo">
+    Ambos os usuários devem ver o vídeo um do outro. O próprio vídeo aparece em miniatura (picture-in-picture).
+  </Step>
+  <Step title="Verificar áudio">
+    Ambos os usuários devem ouvir o áudio um do outro claramente.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Chamada é estabelecida em até 5 segundos após atender. Vídeo e áudio funcionam bidirecionalmente. Vídeo próprio aparece em miniatura. Timer de duração da chamada é exibido.
+
+---
+
+## TC-VIDEO-002: Receber chamada de vídeo
+
+**Severidade:** Crítica
+
+**Pré-condições:**
+- Usuário A iniciou uma chamada para Usuário B
+- Testar com Usuário B em diferentes estados do app
+
+<Tabs>
+  <Tab title="App em foreground">
+    <Steps>
+      <Step title="Verificar tela de chamada recebida">
+        Overlay de chamada recebida com foto e nome do Usuário A, botões de aceitar (verde) e recusar (vermelho).
+      </Step>
+      <Step title="Aceitar chamada">
+        Tocar no botão verde de aceitar.
+      </Step>
+      <Step title="Verificar conexão">
+        Vídeo e áudio devem iniciar imediatamente.
+      </Step>
+    </Steps>
+
+    **Resultado esperado:** Overlay aparece instantaneamente. Som de ringtone toca. Aceitar conecta em até 3 segundos.
+  </Tab>
+  <Tab title="App em background">
+    <Steps>
+      <Step title="Verificar notificação de chamada">
+        Notificação de chamada do sistema (CallKit no iOS / ConnectionService no Android) deve aparecer.
+      </Step>
+      <Step title="Atender pela notificação">
+        Usar os controles do sistema para atender (deslizar ou tocar em aceitar).
+      </Step>
+      <Step title="Verificar que o app abre">
+        O app deve abrir diretamente na tela de videochamada.
+      </Step>
+    </Steps>
+
+    **Resultado esperado:** Notificação do sistema é exibida com ringtone. Atender abre o app na chamada. Transição é fluida.
+  </Tab>
+  <Tab title="Recusar chamada">
+    <Steps>
+      <Step title="Recusar chamada">
+        Tocar no botão vermelho de recusar.
+      </Step>
+      <Step title="Verificar feedback ao chamador">
+        Usuário A deve ver indicação de que a chamada foi recusada.
+      </Step>
+      <Step title="Verificar retorno à tela anterior">
+        Usuário B deve retornar à tela onde estava antes da chamada.
+      </Step>
+    </Steps>
+
+    **Resultado esperado:** Chamada é encerrada. Chamador recebe feedback. Nenhuma conexão de vídeo/áudio é estabelecida.
+  </Tab>
+</Tabs>
+
+---
+
+## TC-VIDEO-003: Alternar câmera (frontal/traseira)
+
+**Severidade:** Média
+
+**Pré-condições:**
+- Chamada de vídeo em andamento entre dois usuários
+- Dispositivo com câmera frontal e traseira
+
+<Steps>
+  <Step title="Verificar câmera inicial">
+    A chamada deve iniciar com a câmera frontal ativa por padrão.
+  </Step>
+  <Step title="Tocar no botão de alternar câmera">
+    Tocar no ícone de flip/rotação de câmera.
+  </Step>
+  <Step title="Verificar transição">
+    O vídeo deve alternar para a câmera traseira com transição suave (sem flash branco ou frame congelado).
+  </Step>
+  <Step title="Verificar no lado remoto">
+    O outro usuário deve ver o vídeo da câmera traseira em até 1 segundo.
+  </Step>
+  <Step title="Alternar de volta">
+    Tocar novamente para voltar à câmera frontal. Transição deve ser igualmente suave.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Alternância é suave e rápida (menos de 1 segundo). Sem interrupção de áudio durante a troca. O outro participante vê a mudança em tempo real.
+
+---
+
+## TC-VIDEO-004: Mutar/desmutar áudio
+
+**Severidade:** Alta
+
+**Pré-condições:**
+- Chamada de vídeo em andamento
+
+<Steps>
+  <Step title="Tocar no botão de mute">
+    Tocar no ícone de microfone para mutar.
+  </Step>
+  <Step title="Verificar feedback visual">
+    O ícone de microfone deve mudar para indicar mute (risco sobre o ícone). O outro usuário deve ver indicação de que o microfone está mutado.
+  </Step>
+  <Step title="Verificar que áudio parou">
+    O outro usuário não deve ouvir nenhum som do participante mutado.
+  </Step>
+  <Step title="Desmutar">
+    Tocar novamente no botão de mute.
+  </Step>
+  <Step title="Verificar retorno do áudio">
+    O áudio deve retornar imediatamente. O indicador visual volta ao estado normal.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Mute/unmute é instantâneo. Feedback visual claro para ambos os participantes. Áudio do outro participante não é afetado. Vídeo continua normalmente durante mute.
+
+---
+
+## TC-VIDEO-005: Ligar/desligar câmera durante chamada
+
+**Severidade:** Alta
+
+**Pré-condições:**
+- Chamada de vídeo em andamento com câmera ativa
+
+<Steps>
+  <Step title="Desligar câmera">
+    Tocar no botão de câmera para desligá-la.
+  </Step>
+  <Step title="Verificar feedback local">
+    A miniatura do próprio vídeo deve mostrar um placeholder (avatar ou ícone de câmera desligada).
+  </Step>
+  <Step title="Verificar no lado remoto">
+    O outro usuário deve ver o placeholder em vez do vídeo. Indicador de "câmera desligada" visível.
+  </Step>
+  <Step title="Verificar que áudio continua">
+    O áudio deve continuar funcionando normalmente em ambas as direções.
+  </Step>
+  <Step title="Religar câmera">
+    Tocar novamente no botão de câmera.
+  </Step>
+  <Step title="Verificar retorno do vídeo">
+    O vídeo deve retornar em até 2 segundos para ambos os participantes.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Câmera liga/desliga sem afetar o áudio. Placeholder claro é exibido quando câmera está off. Transição de volta é rápida. Sem aumento de consumo de dados quando câmera está desligada.
+
+---
+
+## TC-VIDEO-006: Encerrar chamada
+
+**Severidade:** Crítica
+
+**Pré-condições:**
+- Chamada de vídeo em andamento
+
+<Steps>
+  <Step title="Tocar no botão de encerrar">
+    Tocar no botão vermelho de desligar.
+  </Step>
+  <Step title="Verificar encerramento local">
+    A tela de chamada deve fechar. O usuário retorna à tela de chat.
+  </Step>
+  <Step title="Verificar encerramento remoto">
+    O outro participante deve ver indicação de "chamada encerrada" e retornar à tela de chat.
+  </Step>
+  <Step title="Verificar liberação de recursos">
+    Câmera e microfone devem ser liberados (indicador de gravação do sistema deve desaparecer).
+  </Step>
+  <Step title="Verificar registro no chat">
+    Uma mensagem de sistema deve aparecer no chat: "Chamada de vídeo - X min Y seg".
+  </Step>
+</Steps>
+
+**Resultado esperado:** Chamada encerra imediatamente para ambos. Recursos de hardware são liberados. Registro da chamada aparece no histórico do chat. Sem áudio/vídeo residual após encerrar.
+
+---
+
+## Cenários Negativos / Edge Cases
+
+### TC-VIDEO-007: Chamada com conexão instável
+
+**Severidade:** Alta
+
+**Pré-condições:**
+- Chamada de vídeo em andamento
+- Simular rede instável (throttle para 200kbps ou packet loss de 30%)
+
+<Steps>
+  <Step title="Degradar qualidade da rede">
+    Usar ferramenta de throttle para simular conexão instável.
+  </Step>
+  <Step title="Verificar adaptação de qualidade">
+    O vídeo deve reduzir a resolução automaticamente (adaptive bitrate). O áudio deve priorizar qualidade sobre o vídeo.
+  </Step>
+  <Step title="Verificar feedback visual">
+    Indicador de "conexão fraca" deve aparecer na tela da chamada.
+  </Step>
+  <Step title="Verificar que a chamada não cai imediatamente">
+    A chamada deve tentar se manter ativa por pelo menos 30 segundos com conexão degradada.
+  </Step>
+  <Step title="Restaurar conexão">
+    Remover throttle. A qualidade do vídeo deve retornar ao normal automaticamente.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Sistema adapta qualidade automaticamente. Áudio priorizado sobre vídeo. Indicador visual de conexão fraca. Chamada se reconecta automaticamente se a conexão cair brevemente (até 15 segundos). Se a desconexão passar de 30 segundos, a chamada é encerrada com mensagem informativa.
+
+---
+
+### TC-VIDEO-008: Permissões de câmera/microfone negadas
+
+**Severidade:** Alta
+
+**Pré-condições:**
+- Usuário A com permissões de câmera e/ou microfone negadas nas configurações do sistema
+
+<Tabs>
+  <Tab title="Câmera negada">
+    <Steps>
+      <Step title="Tentar iniciar chamada">
+        Tocar no ícone de videochamada.
+      </Step>
+      <Step title="Verificar solicitação de permissão">
+        O app deve exibir dialog explicando por que a câmera é necessária, com link para as configurações do sistema.
+      </Step>
+      <Step title="Verificar fallback">
+        Se o usuário recusar, a chamada deve ser iniciada apenas com áudio (sem vídeo), com indicação clara.
+      </Step>
+    </Steps>
+
+    **Resultado esperado:** Mensagem clara sobre necessidade da permissão. Link direto para configurações do sistema. Fallback para chamada de áudio funciona. Sem crash.
+  </Tab>
+  <Tab title="Microfone negado">
+    <Steps>
+      <Step title="Tentar iniciar chamada">
+        Tocar no ícone de videochamada.
+      </Step>
+      <Step title="Verificar bloqueio">
+        O app deve exibir alerta informando que o microfone é obrigatório para chamadas.
+      </Step>
+      <Step title="Verificar redirecionamento">
+        Botão para abrir configurações do sistema deve estar disponível.
+      </Step>
+    </Steps>
+
+    **Resultado esperado:** Chamada é bloqueada sem microfone (microfone é obrigatório, diferente da câmera). Mensagem clara e acionável. Sem crash ou estado inconsistente.
+  </Tab>
+  <Tab title="Ambas negadas">
+    <Steps>
+      <Step title="Tentar iniciar chamada">
+        Tocar no ícone de videochamada.
+      </Step>
+      <Step title="Verificar mensagem de erro">
+        Alerta informando que câmera e microfone são necessários, com instruções para ativar nas configurações.
+      </Step>
+    </Steps>
+
+    **Resultado esperado:** Chamada é completamente bloqueada. Mensagem clara com instruções passo a passo para conceder permissões. Sem crash.
+  </Tab>
+</Tabs>

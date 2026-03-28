@@ -1,54 +1,137 @@
 ---
-title: Core Concepts
-description: The basic building blocks of this starter kit.
+title: Conceitos
+description: Como funcionam os principais mecanismos do TrueDate.
 ---
 
-## Overview
+## Visão geral
 
-<Callout kind="alert">
-This page is an example. Replace every concept with the real terms your product uses.
-</Callout>
-
-## The building blocks
+Entender como o TrueDate funciona por dentro ajuda você a aproveitar melhor o app. Esta página explica os conceitos centrais da plataforma.
 
 <Columns cols={2}>
-  <Card title="Pages" icon="file-text">
-    Every page is an `.mdx` file. Content lives in the repo and is safe to edit.
+  <Card title="Matching" icon="heart">
+    Como dois usuários se conectam com base em interesse mútuo.
   </Card>
-  <Card title="Navigation" icon="list">
-    Sidebar structure comes from `documentation.json`.
+  <Card title="Swipe" icon="arrow-right">
+    A mecânica de curtir ou passar por perfis na tela de descoberta.
   </Card>
-  <Card title="Components" icon="layout-grid">
-    Reusable blocks like Callouts, Steps, Tabs, and Cards keep pages consistent.
+  <Card title="Likes" icon="thumbs-up">
+    Formas de demonstrar interesse: like simples e super like.
   </Card>
-  <Card title="API Reference" icon="code">
-    If you use it, the API tab reads from `openapi.yaml`.
+  <Card title="Chat" icon="message-circle">
+    Mensagens em tempo real disponíveis após um match.
+  </Card>
+  <Card title="Videochamada" icon="video">
+    Chamadas de vídeo seguras diretamente no app.
+  </Card>
+  <Card title="Planos" icon="star">
+    Diferenças entre plano Free e Premium.
   </Card>
 </Columns>
 
-## Navigation shape (sample)
+---
 
-```json
-{
-  "tab": "Documentation",
-  "groups": [
-    {
-      "group": "Getting Started",
-      "pages": [
-        { "title": "Introduction", "path": "introduction" }
-      ]
-    }
-  ]
-}
-```
+## Matching
 
-## How to adapt this page
+Um **match** acontece quando dois usuários demonstram interesse mútuo um pelo outro — ou seja, ambos fizeram swipe right (ou like) no perfil do outro.
 
-<Steps>
-  <Step title="Replace the terms" icon="edit">
-    Swap "Pages" and "Components" for your real domain language.
-  </Step>
-  <Step title="Add your concepts" icon="plus">
-    Create a section for the ideas your users must learn first.
-  </Step>
-</Steps>
+O algoritmo de sugestão de perfis leva em conta:
+
+- **Preferências de busca** — faixa etária, distância máxima, gênero
+- **Interesses em comum** — tags selecionadas no perfil (ex: esportes, música, viagens)
+- **Atividade recente** — perfis mais ativos têm maior visibilidade
+- **Localização** — perfis mais próximos aparecem com mais frequência
+
+<Callout kind="tip">
+Perfis completos com bio, fotos variadas e interesses preenchidos são ranqueados com maior prioridade no algoritmo.
+</Callout>
+
+Assim que um match é formado, o chat entre os dois usuários é desbloqueado automaticamente e ambos recebem uma notificação.
+
+---
+
+## Swipe
+
+O **swipe** é a ação principal na tela de descoberta. Cada perfil aparece como um card com foto, nome, idade e distância.
+
+| Gesto | Ação | Efeito |
+|-------|------|--------|
+| Swipe right | Curtir | Envia um like para o perfil |
+| Swipe left | Passar | Oculta o perfil da fila |
+| Swipe up | Super Like | Destaca seu interesse (limitado por plano) |
+| Botão ↩ | Desfazer | Volta o último perfil (plano Premium) |
+
+Perfis rejeitados com swipe left não reaparecem na mesma sessão. O sistema impede likes duplicados caso um perfil reapareça em sessões futuras.
+
+---
+
+## Likes
+
+Existem dois tipos de like no TrueDate:
+
+**Like simples**
+Enviado ao fazer swipe right. Não notifica o destinatário de forma especial, apenas entra na fila de "Quem curtiu você".
+
+**Super Like**
+Enviado ao fazer swipe up. O destinatário recebe uma notificação destacada e vê seu perfil com uma borda azul na fila de descoberta, indicando o interesse especial.
+
+### Limites por plano
+
+| Recurso | Free | Premium |
+|---------|------|---------|
+| Likes diários | 10 | Ilimitados |
+| Super Likes diários | 1 | 5 |
+| Ver quem curtiu | Borrado | Visível |
+| Desfazer swipe | Não | Sim |
+
+---
+
+## Chat
+
+O **chat** é desbloqueado automaticamente após um match. Funcionalidades disponíveis:
+
+- Mensagens de texto
+- Envio de fotos
+- Indicador de "digitando..."
+- Confirmação de leitura (visto)
+- Notificações em tempo real
+
+Mensagens são sincronizadas quando o usuário está offline e entregues assim que a conexão é restaurada. O histórico de conversas fica disponível enquanto o match existir — ao desfazer o match, a conversa é removida para ambos os lados.
+
+---
+
+## Videochamada
+
+A **videochamada** pode ser iniciada a partir de qualquer conversa de chat ativa. Recursos disponíveis durante a chamada:
+
+- Vídeo bidirecional em tempo real
+- Alternância entre câmera frontal e traseira
+- Mute/unmute de microfone
+- Ligar/desligar câmera
+- Picture-in-picture do próprio vídeo
+
+O sistema usa adaptive bitrate — reduz a qualidade do vídeo automaticamente em conexões instáveis para manter a chamada ativa. Câmera e microfone requerem permissões explícitas do sistema operacional.
+
+---
+
+## Planos
+
+O TrueDate oferece um plano **Free** e um plano **Premium**.
+
+<Tabs>
+  <Tab title="Free">
+    - Swipe com limite diário de likes
+    - 1 Super Like por dia
+    - Visualização borrada de quem curtiu
+    - Chat com matches ilimitado
+    - Videochamada disponível
+  </Tab>
+  <Tab title="Premium">
+    - Likes ilimitados
+    - 5 Super Likes por dia
+    - Ver quem curtiu você (com fotos nítidas)
+    - Desfazer o último swipe
+    - Boost de perfil (maior visibilidade)
+    - Modo invisível (navegar sem aparecer online)
+    - Sem anúncios
+  </Tab>
+</Tabs>

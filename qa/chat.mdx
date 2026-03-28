@@ -1,0 +1,242 @@
+---
+title: "Chat"
+description: "Casos de teste para o sistema de chat e mensagens do TrueDate"
+---
+
+# Casos de Teste — Chat
+
+Testes para validar o sistema de mensagens em tempo real entre usuários com match.
+
+<Callout type="info">
+**Pré-condições gerais:** Dois usuários com match ativo. Ambos autenticados. Conexão com internet ativa. Chat aberto entre os dois.
+</Callout>
+
+## Resumo dos Casos
+
+| ID | Cenário | Severidade |
+|----|---------|------------|
+| TC-CHAT-001 | Enviar mensagem de texto | Crítica |
+| TC-CHAT-002 | Receber mensagem em tempo real | Crítica |
+| TC-CHAT-003 | Enviar foto/mídia no chat | Alta |
+| TC-CHAT-004 | Indicador de "digitando..." | Média |
+| TC-CHAT-005 | Indicador de leitura (visto) | Média |
+| TC-CHAT-006 | Chat com usuário que deu unmatch | Alta |
+| TC-CHAT-007 | Mensagens offline (sincronização) | Alta |
+
+---
+
+## TC-CHAT-001: Enviar mensagem de texto
+
+**Severidade:** Crítica
+
+**Pré-condições:**
+- Match ativo entre Usuário A e Usuário B
+- Tela de conversa aberta
+
+<Steps>
+  <Step title="Digitar mensagem">
+    Tocar no campo de texto e digitar "Olá, tudo bem?".
+  </Step>
+  <Step title="Enviar mensagem">
+    Tocar no botão de enviar (ícone de seta ou avião).
+  </Step>
+  <Step title="Verificar exibição local">
+    A mensagem deve aparecer no chat do remetente com indicador de "enviando..." e depois "enviada" (check simples).
+  </Step>
+  <Step title="Verificar entrega">
+    A mensagem deve aparecer no chat do Usuário B em até 2 segundos.
+  </Step>
+  <Step title="Verificar persistência">
+    Fechar e reabrir o chat. A mensagem deve estar presente no histórico.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Mensagem é enviada, entregue e exibida em ambos os lados. Status de entrega atualiza corretamente (enviando → enviada → entregue). Mensagem persiste no histórico.
+
+---
+
+## TC-CHAT-002: Receber mensagem em tempo real
+
+**Severidade:** Crítica
+
+**Pré-condições:**
+- Usuário B com o app aberto (foreground)
+- Usuário B pode estar na tela de chat ou em outra tela
+
+<Tabs>
+  <Tab title="Chat aberto">
+    <Steps>
+      <Step title="Usuário A envia mensagem">
+        Usuário A digita e envia "Oi, como vai?" na conversa.
+      </Step>
+      <Step title="Verificar recebimento instantâneo">
+        A mensagem deve aparecer no chat do Usuário B em tempo real, sem necessidade de refresh.
+      </Step>
+      <Step title="Verificar scroll automático">
+        Se o Usuário B estiver no final do chat, o scroll deve descer automaticamente para a nova mensagem.
+      </Step>
+    </Steps>
+
+    **Resultado esperado:** Mensagem aparece instantaneamente. Scroll automático funciona. Sem delay perceptível.
+  </Tab>
+  <Tab title="Outra tela">
+    <Steps>
+      <Step title="Usuário A envia mensagem">
+        Usuário A envia mensagem enquanto Usuário B está na tela de descoberta.
+      </Step>
+      <Step title="Verificar notificação in-app">
+        Um banner/toast deve aparecer no topo da tela com preview da mensagem.
+      </Step>
+      <Step title="Verificar badge">
+        O ícone da aba de chat deve mostrar badge com número de mensagens não lidas.
+      </Step>
+      <Step title="Tocar no banner">
+        Ao tocar no banner, o app deve navegar diretamente para a conversa.
+      </Step>
+    </Steps>
+
+    **Resultado esperado:** Banner aparece em até 2 segundos. Badge atualiza corretamente. Navegação pelo banner leva à conversa correta.
+  </Tab>
+</Tabs>
+
+---
+
+## TC-CHAT-003: Enviar foto/mídia no chat
+
+**Severidade:** Alta
+
+**Pré-condições:**
+- Match ativo com conversa aberta
+- Permissões de galeria/câmera concedidas
+
+<Steps>
+  <Step title="Tocar no ícone de anexo">
+    Tocar no botão de anexar mídia (ícone de câmera ou galeria).
+  </Step>
+  <Step title="Selecionar foto">
+    Escolher uma foto da galeria ou tirar uma nova foto.
+  </Step>
+  <Step title="Verificar preview">
+    Um preview da imagem deve ser exibido antes do envio, com opção de cancelar.
+  </Step>
+  <Step title="Confirmar envio">
+    Tocar em enviar. Um indicador de progresso de upload deve aparecer.
+  </Step>
+  <Step title="Verificar recebimento">
+    Usuário B deve receber a imagem com qualidade adequada e poder ampliá-la com tap.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Imagem é enviada com indicador de progresso. Qualidade mantida (compressão razoável). Receptor pode visualizar e ampliar. Formatos suportados: JPG, PNG, HEIC. Tamanho máximo respeitado.
+
+---
+
+## TC-CHAT-004: Indicador de "digitando..."
+
+**Severidade:** Média
+
+**Pré-condições:**
+- Ambos os usuários com a conversa aberta
+
+<Steps>
+  <Step title="Usuário A começa a digitar">
+    Usuário A toca no campo de texto e começa a digitar.
+  </Step>
+  <Step title="Verificar indicador no lado do Usuário B">
+    O indicador "digitando..." (com animação de pontos) deve aparecer abaixo da última mensagem no chat do Usuário B.
+  </Step>
+  <Step title="Usuário A para de digitar">
+    Usuário A para de digitar por mais de 3 segundos.
+  </Step>
+  <Step title="Verificar que o indicador desaparece">
+    O indicador "digitando..." deve desaparecer após o timeout.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Indicador aparece em até 1 segundo quando o outro usuário começa a digitar. Desaparece após 3-5 segundos de inatividade. Não aparece de forma intermitente (debounce correto).
+
+---
+
+## TC-CHAT-005: Indicador de leitura (visto)
+
+**Severidade:** Média
+
+**Pré-condições:**
+- Usuário A enviou mensagem que já foi entregue ao Usuário B
+- Usuário B ainda não abriu a conversa
+
+<Steps>
+  <Step title="Verificar status 'entregue'">
+    No chat do Usuário A, a mensagem deve mostrar dois checks cinzas (entregue, não lida).
+  </Step>
+  <Step title="Usuário B abre a conversa">
+    Usuário B navega até a conversa e visualiza a mensagem.
+  </Step>
+  <Step title="Verificar status 'lida'">
+    No chat do Usuário A, os checks devem ficar azuis (ou mudar de cor) indicando que a mensagem foi lida.
+  </Step>
+  <Step title="Verificar timestamp de leitura">
+    O horário de leitura deve ser registrado corretamente.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Status evolui: enviando → enviada (1 check) → entregue (2 checks cinzas) → lida (2 checks azuis). Transição acontece em tempo real para o remetente.
+
+---
+
+## Cenários Negativos / Edge Cases
+
+### TC-CHAT-006: Chat com usuário que deu unmatch
+
+**Severidade:** Alta
+
+**Pré-condições:**
+- Usuário A e Usuário B tinham match ativo com histórico de conversa
+- Usuário B dá unmatch no Usuário A
+
+<Steps>
+  <Step title="Usuário A tenta acessar a conversa">
+    Usuário A abre a lista de conversas.
+  </Step>
+  <Step title="Verificar que a conversa sumiu">
+    A conversa com Usuário B não deve mais aparecer na lista de chats.
+  </Step>
+  <Step title="Tentativa de envio via cache/deep link">
+    Caso o Usuário A ainda tenha a tela do chat aberta (em memória), ao tentar enviar uma mensagem, deve receber feedback de erro.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Conversa é removida da lista em tempo real. Tentativa de enviar mensagem para match desfeito exibe erro amigável. Sem crash.
+
+---
+
+### TC-CHAT-007: Mensagens offline (sincronização)
+
+**Severidade:** Alta
+
+**Pré-condições:**
+- Usuário A com conversa aberta
+- Conexão de internet vai ser interrompida
+
+<Steps>
+  <Step title="Desativar conexão">
+    Ativar modo avião no dispositivo do Usuário A.
+  </Step>
+  <Step title="Enviar mensagens offline">
+    Digitar e enviar 3 mensagens de texto.
+  </Step>
+  <Step title="Verificar estado visual">
+    As mensagens devem aparecer no chat com indicador de "pendente" (relógio ou check vazado).
+  </Step>
+  <Step title="Restaurar conexão">
+    Desativar modo avião.
+  </Step>
+  <Step title="Verificar sincronização">
+    As 3 mensagens devem ser enviadas automaticamente na ordem correta. Status deve atualizar para "enviada"/"entregue".
+  </Step>
+  <Step title="Verificar no destinatário">
+    Usuário B deve receber as 3 mensagens na ordem correta.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Mensagens são enfileiradas localmente com indicador visual de pendente. Ao reconectar, são enviadas na ordem correta. Nenhuma mensagem é perdida ou duplicada. Timestamps refletem o momento do envio original.

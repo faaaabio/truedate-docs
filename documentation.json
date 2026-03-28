@@ -1,5 +1,5 @@
 {
-  "name": "Starter Kit",
+  "name": "TrueDate",
   "colors": {
     "light": {
       "brand": "#F97316"
@@ -11,16 +11,181 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "Documentação",
         "icon": "book",
-        "groups": []
+        "groups": [
+          {
+            "group": "Começando",
+            "icon": "rocket",
+            "pages": [
+              {
+                "title": "Introdução",
+                "path": "introduction",
+                "icon": "home"
+              },
+              {
+                "title": "Quickstart",
+                "path": "quickstart",
+                "icon": "zap"
+              },
+              {
+                "title": "Funcionalidades",
+                "path": "components",
+                "icon": "layout-grid"
+              }
+            ]
+          },
+          {
+            "group": "Referência",
+            "icon": "layers",
+            "pages": [
+              {
+                "title": "Images",
+                "path": "components/images",
+                "icon": "image"
+              },
+              {
+                "title": "Cards",
+                "path": "components/cards",
+                "icon": "square"
+              },
+              {
+                "title": "Code",
+                "path": "components/code",
+                "icon": "code"
+              },
+              {
+                "title": "Callouts",
+                "path": "components/callouts",
+                "icon": "message-square"
+              },
+              {
+                "title": "Steps",
+                "path": "components/steps",
+                "icon": "list-ordered"
+              },
+              {
+                "title": "Tabs",
+                "path": "components/tabs",
+                "icon": "columns"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "Visão Geral",
+            "icon": "file-text",
+            "pages": [
+              {
+                "title": "Autenticação",
+                "path": "authentication",
+                "icon": "lock"
+              }
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "openapi": "openapi.yaml"
+          }
+        ]
+      },
+      {
+        "tab": "Ajuda",
+        "icon": "help-circle",
+        "pages": [
+          {
+            "title": "Central de Ajuda",
+            "path": "help-center",
+            "icon": "home"
+          },
+          {
+            "group": "Perguntas Frequentes",
+            "icon": "help-circle",
+            "expandable": false,
+            "pages": [
+              {
+                "title": "Primeiros passos",
+                "path": "help-center/faq/getting-started"
+              }
+            ]
+          },
+          {
+            "group": "Solução de Problemas",
+            "icon": "alert-triangle",
+            "expandable": false,
+            "pages": [
+              {
+                "title": "Problemas técnicos",
+                "path": "help-center/troubleshooting/install-error"
+              }
+            ]
+          },
+          {
+            "group": "Guias",
+            "icon": "book-open",
+            "expandable": false,
+            "pages": [
+              {
+                "title": "Configure seu perfil",
+                "path": "help-center/guides/setup-project"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "QA",
+        "icon": "check-circle",
+        "groups": [
+          {
+            "group": "Casos de Teste",
+            "icon": "clipboard-list",
+            "pages": [
+              {
+                "title": "Visão Geral",
+                "path": "qa/overview",
+                "icon": "file-text"
+              },
+              {
+                "title": "Matching",
+                "path": "qa/matching",
+                "icon": "heart"
+              },
+              {
+                "title": "Swipe",
+                "path": "qa/swipe",
+                "icon": "arrow-right"
+              },
+              {
+                "title": "Likes",
+                "path": "qa/likes",
+                "icon": "thumbs-up"
+              },
+              {
+                "title": "Chat",
+                "path": "qa/chat",
+                "icon": "message-circle"
+              },
+              {
+                "title": "Videochamada",
+                "path": "qa/videocall",
+                "icon": "video"
+              }
+            ]
+          }
+        ]
       },
       {
         "tab": "Changelog",
         "icon": "clock",
         "pages": [
           {
-            "title": "Changelog",
+            "title": "Atualizações",
             "path": "changelog",
             "icon": "history"
           }

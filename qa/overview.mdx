@@ -1,0 +1,93 @@
+---
+title: "Visão Geral de QA"
+description: "Convenções, classificações e diretrizes para os casos de teste do TrueDate"
+---
+
+# Visão Geral de QA
+
+Esta seção documenta os casos de teste para as funcionalidades core do TrueDate. Cada página cobre um módulo específico com cenários positivos, negativos e edge cases.
+
+## Convenções de Nomenclatura
+
+Todos os casos de teste seguem o padrão:
+
+```
+TC-[MÓDULO]-[NÚMERO]
+```
+
+| Prefixo | Módulo |
+|---------|--------|
+| `TC-MATCH` | Matching |
+| `TC-SWIPE` | Swipe |
+| `TC-LIKE` | Likes |
+| `TC-CHAT` | Chat |
+| `TC-VIDEO` | Videochamada |
+
+**Exemplo:** `TC-MATCH-001` — Primeiro caso de teste do módulo de Matching.
+
+## Classificação de Severidade
+
+<Callout type="info">
+A severidade define o impacto do bug caso o cenário falhe. Use esta classificação para priorizar correções.
+</Callout>
+
+| Severidade | Descrição | Exemplo |
+|------------|-----------|---------|
+| **Crítica** | App não funciona ou há perda de dados | Crash ao abrir o chat |
+| **Alta** | Funcionalidade core quebrada, sem workaround | Match não é registrado |
+| **Média** | Funcionalidade impactada, mas com workaround | Notificação de like não aparece |
+| **Baixa** | Problema cosmético ou menor | Animação do swipe com lag leve |
+
+## Ambientes de Teste
+
+| Ambiente | Descrição | URL / Build |
+|----------|-----------|-------------|
+| **Desenvolvimento** | Última build da branch `develop` | Dev interno |
+| **Staging** | Build candidata a release | Staging QA |
+| **Produção** | App publicado nas stores | App Store / Google Play |
+
+## Dados de Teste Padrão
+
+<Callout type="tip">
+Use sempre os usuários de teste abaixo para garantir consistência nos resultados.
+</Callout>
+
+| Usuário | Email | Perfil | Plano |
+|---------|-------|--------|-------|
+| Usuário A | teste.a@truedate.com | Completo, com fotos | Free |
+| Usuário B | teste.b@truedate.com | Completo, com fotos | Premium |
+| Usuário C | teste.c@truedate.com | Incompleto, sem foto | Free |
+| Usuário D | teste.d@truedate.com | Bloqueado | Free |
+
+## Estrutura de Cada Caso de Teste
+
+Cada caso de teste segue esta estrutura:
+
+<Steps>
+  <Step title="ID e Descrição">
+    Identificador único e breve descrição do cenário.
+  </Step>
+  <Step title="Pré-condições">
+    Estado necessário antes de executar o teste.
+  </Step>
+  <Step title="Passos de Execução">
+    Ações que o testador deve realizar, em ordem.
+  </Step>
+  <Step title="Resultado Esperado">
+    O que deve acontecer se o sistema estiver funcionando corretamente.
+  </Step>
+  <Step title="Severidade">
+    Classificação do impacto caso o teste falhe.
+  </Step>
+</Steps>
+
+## Módulos Cobertos
+
+| Módulo | Casos | Página |
+|--------|-------|--------|
+| Matching | 6 | [Matching](/qa/matching) |
+| Swipe | 6 | [Swipe](/qa/swipe) |
+| Likes | 6 | [Likes](/qa/likes) |
+| Chat | 7 | [Chat](/qa/chat) |
+| Videochamada | 8 | [Videochamada](/qa/videocall) |
+| **Total** | **33** | — |

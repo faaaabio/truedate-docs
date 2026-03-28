@@ -1,0 +1,187 @@
+---
+title: "Swipe"
+description: "Casos de teste para o sistema de swipe do TrueDate"
+---
+
+# Casos de Teste — Swipe
+
+Testes para validar o mecanismo de swipe (curtir/rejeitar) na tela de descoberta.
+
+<Callout type="info">
+**Pré-condições gerais:** Usuário autenticado com perfil completo. Pelo menos 5 perfis disponíveis na fila de descoberta. Conexão com internet ativa.
+</Callout>
+
+## Resumo dos Casos
+
+| ID | Cenário | Severidade |
+|----|---------|------------|
+| TC-SWIPE-001 | Swipe right (curtir) | Crítica |
+| TC-SWIPE-002 | Swipe left (rejeitar) | Crítica |
+| TC-SWIPE-003 | Animação e feedback visual | Média |
+| TC-SWIPE-004 | Desfazer último swipe (undo) | Média |
+| TC-SWIPE-005 | Sem mais perfis para exibir | Baixa |
+| TC-SWIPE-006 | Swipe com conexão lenta/offline | Alta |
+
+---
+
+## TC-SWIPE-001: Swipe right (curtir)
+
+**Severidade:** Crítica
+
+**Pré-condições:**
+- Perfis disponíveis na fila de descoberta
+- Usuário na tela principal de descoberta
+
+<Steps>
+  <Step title="Visualizar perfil">
+    O card do perfil deve exibir: foto principal, nome, idade e distância.
+  </Step>
+  <Step title="Realizar swipe right">
+    Arrastar o card do perfil para a direita ou tocar no botão de like (coração).
+  </Step>
+  <Step title="Verificar animação">
+    O card deve sair da tela com animação para a direita e um indicador verde/coração deve aparecer.
+  </Step>
+  <Step title="Verificar próximo perfil">
+    O próximo perfil da fila deve ser exibido automaticamente.
+  </Step>
+  <Step title="Verificar registro no backend">
+    O like deve ser registrado no servidor (verificar via API ou banco de dados).
+  </Step>
+</Steps>
+
+**Resultado esperado:** Like é registrado com sucesso. Animação fluida. Próximo perfil carrega imediatamente. Se o outro usuário já curtiu de volta, o match é disparado.
+
+---
+
+## TC-SWIPE-002: Swipe left (rejeitar)
+
+**Severidade:** Crítica
+
+**Pré-condições:**
+- Perfis disponíveis na fila de descoberta
+
+<Steps>
+  <Step title="Realizar swipe left">
+    Arrastar o card do perfil para a esquerda ou tocar no botão de rejeitar (X).
+  </Step>
+  <Step title="Verificar animação">
+    O card deve sair da tela com animação para a esquerda e um indicador vermelho/X deve aparecer.
+  </Step>
+  <Step title="Verificar próximo perfil">
+    O próximo perfil da fila deve ser exibido automaticamente.
+  </Step>
+  <Step title="Verificar que o perfil não reaparece">
+    O perfil rejeitado não deve reaparecer na fila de descoberta na mesma sessão.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Perfil é rejeitado e removido da fila. Animação fluida. O perfil não volta a aparecer (a menos que o sistema tenha reciclagem configurada).
+
+---
+
+## TC-SWIPE-003: Animação e feedback visual
+
+**Severidade:** Média
+
+**Pré-condições:**
+- Perfis disponíveis na fila
+
+<Steps>
+  <Step title="Arrastar card parcialmente para a direita">
+    Mover o card lentamente para a direita sem soltar. Verificar que o overlay verde/like aparece gradualmente.
+  </Step>
+  <Step title="Retornar card ao centro">
+    Soltar o card antes de ultrapassar o threshold. O card deve voltar à posição original com animação spring.
+  </Step>
+  <Step title="Arrastar card parcialmente para a esquerda">
+    Mover o card lentamente para a esquerda. Verificar que o overlay vermelho/nope aparece gradualmente.
+  </Step>
+  <Step title="Completar swipe">
+    Arrastar além do threshold e soltar. O card deve completar o swipe com aceleração natural.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Overlays de like/nope aparecem proporcionalmente ao arraste. Animação de retorno é suave (spring). Swipe completo tem aceleração natural. Sem travamentos ou jank visual.
+
+---
+
+## TC-SWIPE-004: Desfazer último swipe (undo)
+
+**Severidade:** Média
+
+**Pré-condições:**
+- Pelo menos um swipe (right ou left) já realizado na sessão
+- Feature de undo disponível para o plano do usuário
+
+<Steps>
+  <Step title="Realizar um swipe left">
+    Rejeitar um perfil com swipe left.
+  </Step>
+  <Step title="Tocar no botão de undo">
+    Tocar no botão de desfazer (seta para trás) imediatamente após o swipe.
+  </Step>
+  <Step title="Verificar retorno do card">
+    O perfil rejeitado deve retornar à tela com animação reversa.
+  </Step>
+  <Step title="Verificar que o swipe foi anulado">
+    O like/reject anterior deve ser removido do registro no backend.
+  </Step>
+</Steps>
+
+**Resultado esperado:** O perfil retorna à posição original. O registro de swipe é anulado no backend. O undo só funciona para o último swipe (não empilha múltiplos undos).
+
+---
+
+## TC-SWIPE-005: Sem mais perfis para exibir
+
+**Severidade:** Baixa
+
+**Pré-condições:**
+- Usuário já passou por todos os perfis disponíveis na região/filtros
+
+<Steps>
+  <Step title="Consumir todos os perfis">
+    Fazer swipe em todos os perfis disponíveis até acabar a fila.
+  </Step>
+  <Step title="Verificar estado vazio">
+    Uma tela informativa deve ser exibida indicando que não há mais perfis no momento.
+  </Step>
+  <Step title="Verificar sugestão de ação">
+    O app deve sugerir expandir os filtros de busca ou voltar mais tarde.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Mensagem amigável como "Sem mais perfis por agora. Que tal expandir seus filtros?" é exibida. Sem crash ou loop infinito de carregamento.
+
+---
+
+## Cenários Negativos / Edge Cases
+
+### TC-SWIPE-006: Swipe com conexão lenta/offline
+
+**Severidade:** Alta
+
+**Pré-condições:**
+- Perfis já carregados na fila
+- Simular perda de conexão ou conexão muito lenta (throttle para 2G)
+
+<Steps>
+  <Step title="Desativar conexão">
+    Ativar modo avião ou simular rede lenta via proxy/DevTools.
+  </Step>
+  <Step title="Realizar swipe right">
+    Fazer swipe right em um perfil.
+  </Step>
+  <Step title="Verificar comportamento local">
+    O swipe deve ser aceito localmente com animação normal.
+  </Step>
+  <Step title="Verificar fila de sincronização">
+    O like deve ser enfileirado para envio quando a conexão retornar.
+  </Step>
+  <Step title="Restaurar conexão">
+    Desativar modo avião e verificar se o like é sincronizado com o servidor.
+  </Step>
+</Steps>
+
+**Resultado esperado:** Swipes são aceitos offline e enfileirados. Ao restaurar conexão, todos os swipes pendentes são sincronizados. Nenhum dado é perdido. Feedback visual sutil indica modo offline.
