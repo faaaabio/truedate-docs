@@ -1,0 +1,51 @@
+---
+title: Cores
+---
+
+# Cores — Apontamentos Globais
+
+---
+
+### AP-DS-002 — Cor da marca incorreta em múltiplas telas
+
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Alta |
+| Telas afetadas | Tela de splash, header logo, elementos brand em geral |
+| Responsável | — |
+
+**Descrição:**
+A cor da marca (`brand`) está sendo aplicada com um valor incorreto em algumas telas. A **cor correta da marca é `#C8B776`** (dourado/champagne). Em algumas telas foi identificado uso de cor diferente para elementos que deveriam usar a cor brand.
+
+**Correção esperada:**
+Atualizar o token de cor no design system / tema global:
+```
+brand.primary: #C8B776
+```
+Auditar todos os componentes que referenciam a cor brand e garantir que estão usando o token correto (não valores hardcoded).
+
+---
+
+### AP-DS-003 — Cor azul incorreta em elementos secundários
+
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Alta |
+| Telas afetadas | Botões de ação, links, elementos de destaque em azul |
+| Responsável | — |
+
+**Descrição:**
+Elementos que devem usar a cor azul (botões, links, indicadores) estão com valores de cor incorretos. As cores corretas definidas pelo designer são:
+
+- **Azul primário:** `#0583F1` (substituir uso de preto `#000000` em contextos de ação)
+- **Azul escuro / secundário:** `#143341` (usar como alternativa ao preto puro em textos e ícones)
+
+**Correção esperada:**
+Atualizar os tokens de cor no tema global:
+```
+color.blue.primary:   #0583F1
+color.blue.dark:      #143341
+```
+Substituir usos de `#000000` em botões de ação e elementos de navegação pelos tokens corretos.

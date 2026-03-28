@@ -1,0 +1,48 @@
+---
+title: Componentes
+---
+
+# Componentes — Apontamentos Globais
+
+---
+
+### AP-DS-005 — Drawer como componente padrão para ações secundárias
+
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Média |
+| Telas afetadas | Modal "Recurso Premium", Modal "Enviar Mensagem", e outros modais do app |
+| Responsável | — |
+
+**Descrição:**
+Atualmente, mensagens secundárias e ações de confirmação são exibidas como modais centrados (dialogs). O designer sugere migrar para o padrão de **bottom drawer** (sheet deslizável de baixo para cima), que é mais natural no mobile e deixa o app mais leve visualmente.
+
+Telas identificadas com este padrão de dialog que poderiam usar drawer:
+- "Recurso Premium" — exibido como modal centrado com botões "Assinar Premium" e "Cancelar"
+- "Enviar Mensagem" — aviso de conduta exibido como modal com checkbox "Não mostrar novamente"
+
+Adicionalmente, os **títulos dentro dos modais** também estão sem a fonte padrão (Plus Jakarta Sans), problema relacionado ao AP-DS-001.
+
+**Correção esperada:**
+- Criar um componente `BottomDrawer` reutilizável para uso em todo o app.
+- Migrar os modais identificados para o novo componente.
+- Garantir que o drawer respeita a safe area inferior e tem animação de entrada/saída suave.
+
+---
+
+### AP-DS-006 — Botões de ação primária devem ser flutuantes
+
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Alta |
+| Telas afetadas | Onboarding, Cadastro, e demais telas com botão de ação principal na base |
+| Responsável | — |
+
+**Descrição:**
+Botões de ação primária no rodapé de telas (ex: "Continuar", "Finalizar", "Próximo", "Buscar") não são flutuantes, permitindo que elementos de conteúdo os sobreponham ao rolar a tela ou quando o teclado está ativo. Em dispositivos com gesture navigation, o botão pode ainda ser parcialmente coberto pela barra do OS.
+
+**Correção esperada:**
+- Tornar estes botões flutuantes: `position: absolute`, `bottom: 0`, com padding inferior de `safeAreaInsets.bottom + 16px`.
+- Criar um componente `FixedActionButton` padronizado para uso em todo o app.

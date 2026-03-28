@@ -40,8 +40,8 @@
                 "icon": "user"
               },
               {
-                "title": "Descoberta",
-                "path": "review/descoberta",
+                "title": "Explorar",
+                "path": "review/explorar",
                 "icon": "compass"
               }
             ]
@@ -51,9 +51,24 @@
             "icon": "settings",
             "pages": [
               {
-                "title": "Design System",
-                "path": "review/design-system",
+                "title": "Tipografia",
+                "path": "review/tipografia",
+                "icon": "type"
+              },
+              {
+                "title": "Cores",
+                "path": "review/cores",
                 "icon": "palette"
+              },
+              {
+                "title": "Espaçamento",
+                "path": "review/espacamento",
+                "icon": "ruler"
+              },
+              {
+                "title": "Componentes",
+                "path": "review/componentes",
+                "icon": "layers"
               }
             ]
           }

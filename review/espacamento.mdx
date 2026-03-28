@@ -1,0 +1,24 @@
+---
+title: Espaçamento
+---
+
+# Espaçamento — Apontamentos Globais
+
+---
+
+### AP-DS-004 — Espaçamento entre cards não segue a grade de 4px
+
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Média |
+| Telas afetadas | Feed em grid, Estatísticas, Comunidades, Cadastro |
+| Responsável | — |
+
+**Descrição:**
+O espaçamento entre cards e elementos em múltiplas telas não está seguindo a grade de espaçamento definida no design system: **todos os espaços devem ser múltiplos de 4px** (4, 8, 12, 16, 20, 24, 32...). Valores arbitrários como `10px`, `14px` ou `18px` foram identificados.
+
+**Correção esperada:**
+- Auditar todos os `gap`, `margin` e `padding` do app e arredondar para o múltiplo de 4px mais próximo.
+- Definir um conjunto fixo de tokens de espaçamento no tema: `spacing.1=4`, `spacing.2=8`, `spacing.3=12`, `spacing.4=16`, etc.
+- Priorizar as telas: Feed em grid (AP-DES-005), Cadastro e Estatísticas.

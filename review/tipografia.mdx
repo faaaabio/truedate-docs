@@ -1,0 +1,37 @@
+---
+title: Tipografia
+---
+
+# Tipografia — Apontamentos Globais
+
+---
+
+### AP-DS-001 — Fonte Plus Jakarta Sans não aplicada em múltiplas telas
+
+| Campo | Valor |
+|-------|-------|
+| Status | Aberto |
+| Prioridade | Alta |
+| Telas afetadas | Onboarding, Cadastro, Tudo Pronto!, Perfil público, Configurações, Estatísticas, Filtros, Comunidades, Álbum, Mensagens, modais de Recurso Premium e Enviar Mensagem |
+| Responsável | — |
+
+**Descrição:**
+A fonte padrão do app **Plus Jakarta Sans** não está sendo carregada ou aplicada consistentemente em diversas telas. Em vez dela, o sistema operacional renderiza sua fonte de fallback padrão (Roboto no Android, San Francisco no iOS), criando inconsistência visual generalizada em títulos, labels e textos de corpo.
+
+O problema foi identificado nas seguintes telas (não exaustivo):
+- Tela "Tudo Pronto!" — título e lista de benefícios
+- Tela "Criar sua conta" — título e labels de seção
+- Perfil público — seção "Informações Básicas"
+- Configurações — nome do usuário, labels do menu
+- Estatísticas — labels dos cards
+- Filtros — título e opções
+- Comunidades — título e tabs ("Todas", "Recentes", "Não lidas")
+- Álbum — estado vazio ("Seu álbum está vazio")
+- Mensagens — estado vazio ("Nenhuma conversa ainda")
+- Modais — títulos de "Recurso Premium" e "Enviar Mensagem"
+
+**Correção esperada:**
+1. Verificar se a fonte `Plus Jakarta Sans` está sendo carregada via `expo-font` (ou equivalente) antes do primeiro render da aplicação.
+2. Garantir que o carregamento é aguardado com `useFonts` + `SplashScreen.preventAutoHideAsync()`.
+3. Confirmar que o `fontFamily: 'PlusJakartaSans'` está definido no tema global e que todos os componentes de texto (`Text`, `Heading`, labels) herdam corretamente.
+4. Testar em dispositivos Android físicos — o problema pode não ser reproduzível em emulador.
